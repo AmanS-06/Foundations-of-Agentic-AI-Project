@@ -1,0 +1,11 @@
+ingredient,stock_qty,unit,expiry_date,reorder_point
+rice,60,kg,2027-02-13,40
+toor_dal,12,kg,2027-01-14,10
+moong_dal,5,kg,2027-01-14,4
+mixed_veg,20,kg,2026-10-17,25
+chicken,15,kg,2026-10-17,20
+oil,25,l,2027-05-04,10
+ghee,3,kg,2026-12-15,2
+milk,30,l,2026-10-16,40
+tea_leaves,2,kg,2027-04-14,1
+sugar,15,kg,2027-10-16,5
