@@ -1,0 +1,5 @@
+# Store text files with LF line endings in git; each laptop checks them out natively.
+* text=auto
+*.png binary
+*.pdf binary
+*.pptx binary

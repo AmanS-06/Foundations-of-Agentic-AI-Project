@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets and local settings
+.env
+
+# Generated at runtime
+outputs/
+data/memory.db
+data/chroma/
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
