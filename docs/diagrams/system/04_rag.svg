@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800">
+<defs><marker id="h-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5B6B66"/></marker><marker id="h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C0392B"/></marker><marker id="h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2F6F8F"/></marker><marker id="h-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B7791F"/></marker><marker id="h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1E7A55"/></marker>
+<style>
+text { font-family: 'Segoe UI', Arial, sans-serif; fill: #1B2B26; }
+.t { font-size: 26px; font-weight: 700; }
+.h { font-size: 30px; font-weight: 700; }
+.b { font-size: 23px; }
+.u { font-size: 23px; font-weight: 700; }
+.s { font-size: 20px; }
+.i { font-size: 20px; font-style: italic; }
+</style></defs>
+<rect width="1600" height="800" fill="#FFFFFF"/>
+<text x="20" y="38" class="t" text-anchor="start">Indexing: done once, when the app starts</text>
+<rect x="20" y="60" width="300" height="155" rx="14" fill="#F0F2F1" stroke="#5B6B66" stroke-width="3"/>
+<text x="36" y="94" class="t" text-anchor="start" fill="#5B6B66">data/kb/*.md</text>
+<text x="36" y="124" class="s" text-anchor="start">4 files: FSSAI food</text>
+<text x="36" y="149" class="s" text-anchor="start">safety, canteen SOP,</text>
+<text x="36" y="174" class="s" text-anchor="start">recipe yields, budget</text>
+<text x="36" y="199" class="s" text-anchor="start">policy</text>
+<rect x="365" y="60" width="300" height="155" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="381" y="94" class="t" text-anchor="start" fill="#1E7A55">Split by heading</text>
+<text x="381" y="124" class="s" text-anchor="start">39 chunks. Each section</text>
+<text x="381" y="149" class="s" text-anchor="start">is one self-contained</text>
+<text x="381" y="174" class="s" text-anchor="start">rule, so it can be cited</text>
+<rect x="710" y="60" width="300" height="155" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="726" y="94" class="t" text-anchor="start" fill="#B7791F">TF-IDF vectors</text>
+<text x="726" y="124" class="s" text-anchor="start">one vector per chunk,</text>
+<text x="726" y="149" class="s" text-anchor="start">built locally, so it</text>
+<text x="726" y="174" class="s" text-anchor="start">works offline</text>
+<rect x="1055" y="60" width="300" height="155" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="1071" y="94" class="t" text-anchor="start" fill="#B7791F">ChromaDB</text>
+<text x="1071" y="124" class="s" text-anchor="start">stores the vectors in an</text>
+<text x="1071" y="149" class="s" text-anchor="start">HNSW index (cosine</text>
+<text x="1071" y="174" class="s" text-anchor="start">similarity)</text>
+<path d="M320,137 L365,137" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M665,137 L710,137" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M1010,137 L1055,137" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<rect x="710" y="245" width="300" height="100" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="726" y="279" class="t" text-anchor="start" fill="#B7791F">BM25 index</text>
+<text x="726" y="309" class="s" text-anchor="start">keyword index over the</text>
+<text x="726" y="334" class="s" text-anchor="start">same chunks (rank_bm25)</text>
+<path d="M515,215 V295 H710" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<text x="1055" y="282" class="i" text-anchor="start" fill="#5B6B66">Both indexes live in memory</text>
+<text x="1055" y="308" class="i" text-anchor="start" fill="#5B6B66">and are rebuilt at start-up.</text>
+<text x="20" y="410" class="t" text-anchor="start">Query: every time an agent asks a question</text>
+<rect x="20" y="440" width="260" height="125" rx="14" fill="#F0F2F1" stroke="#5B6B66" stroke-width="3"/>
+<text x="36" y="474" class="t" text-anchor="start" fill="#5B6B66">A question</text>
+<text x="36" y="504" class="s" text-anchor="start">from the Research</text>
+<text x="36" y="529" class="s" text-anchor="start">agent, e.g. &#x27;reheating</text>
+<text x="36" y="554" class="s" text-anchor="start">leftovers&#x27;</text>
+<rect x="305" y="430" width="320" height="100" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="321" y="464" class="t" text-anchor="start" fill="#B7791F">Vector search</text>
+<text x="321" y="494" class="s" text-anchor="start">ChromaDB finds the chunks</text>
+<text x="321" y="519" class="s" text-anchor="start">closest to the question</text>
+<rect x="305" y="545" width="320" height="100" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="321" y="579" class="t" text-anchor="start" fill="#B7791F">BM25 keyword search</text>
+<text x="321" y="609" class="s" text-anchor="start">ranks chunks by the</text>
+<text x="321" y="634" class="s" text-anchor="start">words they share</text>
+<rect x="650" y="480" width="290" height="125" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="666" y="514" class="t" text-anchor="start" fill="#1E7A55">Fuse with RRF</text>
+<text x="666" y="544" class="s" text-anchor="start">Reciprocal Rank Fusion:</text>
+<text x="666" y="569" class="s" text-anchor="start">score = sum of</text>
+<text x="666" y="594" class="s" text-anchor="start">1 / (60 + rank)</text>
+<rect x="965" y="480" width="310" height="125" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="981" y="514" class="t" text-anchor="start" fill="#1E7A55">Top chunks</text>
+<text x="981" y="544" class="s" text-anchor="start">Research asks for 2 per</text>
+<text x="981" y="569" class="s" text-anchor="start">question. Each has a</text>
+<text x="981" y="594" class="s" text-anchor="start">citation: file &gt; section</text>
+<rect x="1300" y="430" width="280" height="100" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="1316" y="464" class="t" text-anchor="start" fill="#1E7A55">Research agent</text>
+<text x="1316" y="494" class="s" text-anchor="start">reads the budget and</text>
+<text x="1316" y="519" class="s" text-anchor="start">food-safety rules</text>
+<rect x="1300" y="545" width="280" height="100" rx="14" fill="#FBE4E1" stroke="#C0392B" stroke-width="3"/>
+<text x="1316" y="579" class="t" text-anchor="start" fill="#C0392B">Critic (rule C9)</text>
+<text x="1316" y="609" class="s" text-anchor="start">quotes the food-safety</text>
+<text x="1316" y="634" class="s" text-anchor="start">source in its verdict</text>
+<path d="M280,502 L305,480" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M280,520 L305,595" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M625,480 L650,520" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M625,595 L650,570" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M940,542 L965,542" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M1275,520 L1300,480" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M1275,560 L1300,595" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<rect x="20" y="695" width="1560" height="85" rx="14" fill="#FEF7E8" stroke="#B7791F" stroke-width="3"/>
+<text x="800" y="746" class="t" text-anchor="middle">The RAG knowledge base and the memory are local tools inside the host. They are not MCP servers.</text>
+</svg>

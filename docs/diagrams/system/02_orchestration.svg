@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800">
+<defs><marker id="h-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5B6B66"/></marker><marker id="h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C0392B"/></marker><marker id="h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2F6F8F"/></marker><marker id="h-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B7791F"/></marker><marker id="h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1E7A55"/></marker>
+<style>
+text { font-family: 'Segoe UI', Arial, sans-serif; fill: #1B2B26; }
+.t { font-size: 26px; font-weight: 700; }
+.h { font-size: 30px; font-weight: 700; }
+.b { font-size: 23px; }
+.u { font-size: 23px; font-weight: 700; }
+.s { font-size: 20px; }
+.i { font-size: 20px; font-style: italic; }
+</style></defs>
+<rect width="1600" height="800" fill="#FFFFFF"/>
+<text x="20" y="38" class="t" text-anchor="start">Orchestration: LangGraph calls each agent in turn, and each agent calls tools, local code or the AI model</text>
+<text x="470" y="92" class="s" text-anchor="start" fill="#C0392B">MCP tools: allowlist checks every call</text>
+<text x="850" y="92" class="s" text-anchor="start" fill="#B7791F">Local code and tools (not MCP)</text>
+<text x="1230" y="92" class="s" text-anchor="start" fill="#6B4FA3">AI language model (LLM)</text>
+<rect x="462" y="100" width="376" height="618" rx="12" fill="none" stroke="#C0392B" stroke-width="2.5" stroke-dasharray="10 6"/>
+<rect x="15" y="108" width="80" height="604" rx="14" fill="#EEF7F1" stroke="#1E7A55" stroke-width="3"/>
+<text transform="translate(66,410) rotate(-90)" class="t" text-anchor="middle" fill="#1E7A55">LangGraph runs the agents in this order</text>
+<rect x="115" y="108" width="330" height="112" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="131" y="140" class="t" text-anchor="start" fill="#1E7A55">1 Planner</text>
+<text x="131" y="166" class="s" text-anchor="start">breaks the goal into tasks</text>
+<text x="131" y="188" class="s" text-anchor="start">uses no tools</text>
+<rect x="476" y="108" width="348" height="112" rx="14" fill="#F0F2F1" stroke="#5B6B66" stroke-width="3"/>
+<text x="492" y="142" class="t" text-anchor="start" fill="#5B6B66">No tools</text>
+<text x="492" y="172" class="s" text-anchor="start">plans only</text>
+<rect x="1236" y="108" width="338" height="112" rx="14" fill="#EEE8F6" stroke="#6B4FA3" stroke-width="3"/>
+<text x="1252" y="142" class="t" text-anchor="start" fill="#6B4FA3">LLM</text>
+<text x="1252" y="172" class="s" text-anchor="start">breaks the goal</text>
+<text x="1252" y="197" class="s" text-anchor="start">into tasks</text>
+<path d="M445,164 L476,164" fill="none" stroke="#5B6B66" stroke-width="2.5" marker-end="url(#h-grey)"/>
+<rect x="115" y="230" width="330" height="112" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="131" y="262" class="t" text-anchor="start" fill="#1E7A55">2 Research</text>
+<text x="131" y="288" class="s" text-anchor="start">gathers the facts</text>
+<text x="131" y="310" class="s" text-anchor="start">(perceives the world)</text>
+<text x="131" y="333" class="i" text-anchor="start" fill="#C0392B">Guardrail: note scanner first</text>
+<rect x="476" y="230" width="348" height="112" rx="14" fill="#E4EEF6" stroke="#2F6F8F" stroke-width="3"/>
+<text x="492" y="264" class="t" text-anchor="start" fill="#2F6F8F">MCP tools</text>
+<text x="492" y="294" class="s" text-anchor="start">calendar, attendance,</text>
+<text x="492" y="319" class="s" text-anchor="start">menu, leftover batches</text>
+<rect x="856" y="230" width="348" height="112" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="872" y="264" class="t" text-anchor="start" fill="#B7791F">RAG + memory</text>
+<text x="872" y="294" class="s" text-anchor="start">food-safety and budget rules;</text>
+<text x="872" y="319" class="s" text-anchor="start">past runs of the same day type</text>
+<rect x="1236" y="230" width="338" height="112" rx="14" fill="#EEE8F6" stroke="#6B4FA3" stroke-width="3"/>
+<text x="1252" y="264" class="t" text-anchor="start" fill="#6B4FA3">LLM</text>
+<text x="1252" y="294" class="s" text-anchor="start">reads the note (3 votes),</text>
+<text x="1252" y="319" class="s" text-anchor="start">writes the summary</text>
+<path d="M445,286 L476,286" fill="none" stroke="#5B6B66" stroke-width="2.5" marker-end="url(#h-grey)"/>
+<rect x="115" y="352" width="330" height="112" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="131" y="384" class="t" text-anchor="start" fill="#1E7A55">3 Executor</text>
+<text x="131" y="410" class="s" text-anchor="start">builds and costs the plan</text>
+<text x="131" y="432" class="s" text-anchor="start">ReAct: think, call, observe</text>
+<text x="131" y="455" class="i" text-anchor="start" fill="#C0392B">Guardrail: AI cannot loosen limits</text>
+<rect x="476" y="352" width="348" height="112" rx="14" fill="#E4EEF6" stroke="#2F6F8F" stroke-width="3"/>
+<text x="492" y="386" class="t" text-anchor="start" fill="#2F6F8F">MCP tools</text>
+<text x="492" y="416" class="s" text-anchor="start">history, recipes, stock,</text>
+<text x="492" y="441" class="s" text-anchor="start">suppliers, budget, cost_plan</text>
+<rect x="856" y="352" width="348" height="112" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="872" y="386" class="t" text-anchor="start" fill="#B7791F">Forecast and choice</text>
+<text x="872" y="416" class="s" text-anchor="start">3 forecasts, newsvendor,</text>
+<text x="872" y="441" class="s" text-anchor="start">Tree-of-Thought +0/5/10/15%</text>
+<rect x="1236" y="352" width="338" height="112" rx="14" fill="#EEE8F6" stroke="#6B4FA3" stroke-width="3"/>
+<text x="1252" y="386" class="t" text-anchor="start" fill="#6B4FA3">LLM</text>
+<text x="1252" y="416" class="s" text-anchor="start">writes the summary; reads</text>
+<text x="1252" y="441" class="s" text-anchor="start">the Critic&#x27;s feedback</text>
+<path d="M445,408 L476,408" fill="none" stroke="#5B6B66" stroke-width="2.5" marker-end="url(#h-grey)"/>
+<rect x="115" y="474" width="330" height="112" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="131" y="506" class="t" text-anchor="start" fill="#1E7A55">4 Critic</text>
+<text x="131" y="532" class="s" text-anchor="start">checks the plan; can send</text>
+<text x="131" y="554" class="s" text-anchor="start">it back to the Executor</text>
+<text x="131" y="577" class="i" text-anchor="start" fill="#C0392B">Guardrail: fact check (C6)</text>
+<rect x="476" y="474" width="348" height="112" rx="14" fill="#E4EEF6" stroke="#2F6F8F" stroke-width="3"/>
+<text x="492" y="508" class="t" text-anchor="start" fill="#2F6F8F">MCP tools</text>
+<text x="492" y="538" class="s" text-anchor="start">budget, menu, history,</text>
+<text x="492" y="563" class="s" text-anchor="start">leftovers (checks itself)</text>
+<rect x="856" y="474" width="348" height="112" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="872" y="508" class="t" text-anchor="start" fill="#B7791F">6 rules + schema check</text>
+<text x="872" y="538" class="s" text-anchor="start">C1 C2 C4 C5 C6 C9;</text>
+<text x="872" y="563" class="s" text-anchor="start">the rules decide the verdict</text>
+<rect x="1236" y="474" width="338" height="112" rx="14" fill="#EEE8F6" stroke="#6B4FA3" stroke-width="3"/>
+<text x="1252" y="508" class="t" text-anchor="start" fill="#6B4FA3">LLM</text>
+<text x="1252" y="538" class="s" text-anchor="start">writes the feedback</text>
+<text x="1252" y="563" class="s" text-anchor="start">in plain words</text>
+<path d="M445,530 L476,530" fill="none" stroke="#5B6B66" stroke-width="2.5" marker-end="url(#h-grey)"/>
+<rect x="115" y="596" width="330" height="112" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="131" y="628" class="t" text-anchor="start" fill="#1E7A55">5 Automation</text>
+<text x="131" y="654" class="s" text-anchor="start">acts on the approved plan</text>
+<text x="131" y="676" class="s" text-anchor="start">the only agent that writes</text>
+<text x="131" y="699" class="i" text-anchor="start" fill="#C0392B">Guardrail: write tools only here</text>
+<rect x="476" y="596" width="348" height="112" rx="14" fill="#E4EEF6" stroke="#2F6F8F" stroke-width="3"/>
+<text x="492" y="630" class="t" text-anchor="start" fill="#2F6F8F">MCP write tools</text>
+<text x="492" y="660" class="s" text-anchor="start">purchase orders (Supply),</text>
+<text x="492" y="685" class="s" text-anchor="start">waste log (Finance)</text>
+<rect x="856" y="596" width="348" height="112" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="872" y="630" class="t" text-anchor="start" fill="#B7791F">Files + memory</text>
+<text x="872" y="660" class="s" text-anchor="start">prep sheet and plan files;</text>
+<text x="872" y="685" class="s" text-anchor="start">saves a lesson</text>
+<path d="M445,652 L476,652" fill="none" stroke="#5B6B66" stroke-width="2.5" marker-end="url(#h-grey)"/>
+<rect x="20" y="748" width="26" height="26" rx="6" fill="#E4EEF6" stroke="#2F6F8F" stroke-width="2.5"/>
+<text x="56" y="769" class="s" text-anchor="start" fill="#5B6B66">MCP tools (the offices&#x27; data)</text>
+<rect x="403" y="748" width="26" height="26" rx="6" fill="#FDF1DC" stroke="#B7791F" stroke-width="2.5"/>
+<text x="439" y="769" class="s" text-anchor="start" fill="#5B6B66">local code, not MCP</text>
+<rect x="680" y="748" width="26" height="26" rx="6" fill="#EEE8F6" stroke="#6B4FA3" stroke-width="2.5"/>
+<text x="716" y="769" class="s" text-anchor="start" fill="#5B6B66">AI model</text>
+<rect x="840" y="748" width="26" height="26" rx="6" fill="#FBE4E1" stroke="#C0392B" stroke-width="2.5"/>
+<text x="876" y="769" class="s" text-anchor="start" fill="#5B6B66">guardrail</text>
+<rect x="1011" y="748" width="26" height="26" rx="6" fill="#E3F1E9" stroke="#1E7A55" stroke-width="2.5"/>
+<text x="1047" y="769" class="s" text-anchor="start" fill="#5B6B66">agent</text>
+</svg>

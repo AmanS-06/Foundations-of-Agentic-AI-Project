@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800">
+<defs><marker id="h-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5B6B66"/></marker><marker id="h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C0392B"/></marker><marker id="h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2F6F8F"/></marker><marker id="h-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B7791F"/></marker><marker id="h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1E7A55"/></marker>
+<style>
+text { font-family: 'Segoe UI', Arial, sans-serif; fill: #1B2B26; }
+.t { font-size: 26px; font-weight: 700; }
+.h { font-size: 30px; font-weight: 700; }
+.b { font-size: 23px; }
+.u { font-size: 23px; font-weight: 700; }
+.s { font-size: 20px; }
+.i { font-size: 20px; font-style: italic; }
+</style></defs>
+<rect width="1600" height="800" fill="#FFFFFF"/>
+<rect x="20" y="15" width="1560" height="255" rx="14" fill="#F7F9F8" stroke="#5B6B66" stroke-width="3"/>
+<text x="40" y="52" class="t" text-anchor="start">State: one shared PlanState (state.py). Every agent reads it and writes back what it changes.</text>
+<rect x="40" y="80" width="330" height="175" rx="14" fill="#E4EEF6" stroke="#2F6F8F" stroke-width="3"/>
+<text x="56" y="114" class="t" text-anchor="start" fill="#2F6F8F">Inputs</text>
+<text x="56" y="144" class="s" text-anchor="start">goal, plan_date, run_id</text>
+<text x="56" y="169" class="s" text-anchor="start">manager_note, budget_factor</text>
+<rect x="440" y="80" width="330" height="175" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="456" y="114" class="t" text-anchor="start" fill="#1E7A55">Outputs of the agents</text>
+<text x="456" y="144" class="s" text-anchor="start">task_plan, research, plan,</text>
+<text x="456" y="169" class="s" text-anchor="start">review, decision, actions</text>
+<rect x="840" y="80" width="330" height="175" rx="14" fill="#FBE4E1" stroke="#C0392B" stroke-width="3"/>
+<text x="856" y="114" class="t" text-anchor="start" fill="#C0392B">Control</text>
+<text x="856" y="144" class="s" text-anchor="start">revision: times sent back</text>
+<text x="856" y="169" class="s" text-anchor="start">status: running / approved /</text>
+<text x="856" y="194" class="s" text-anchor="start">escalated (+ 2 caches)</text>
+<rect x="1240" y="80" width="330" height="175" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="1256" y="114" class="t" text-anchor="start" fill="#B7791F">Append-only lists</text>
+<text x="1256" y="144" class="s" text-anchor="start">messages, trace, timings,</text>
+<text x="1256" y="169" class="s" text-anchor="start">attempts: merged with</text>
+<text x="1256" y="194" class="s" text-anchor="start">operator.add, so nothing</text>
+<text x="1256" y="219" class="s" text-anchor="start">is overwritten</text>
+<text x="40" y="316" class="t" text-anchor="start">Nodes and edges (graph.py)</text>
+<text x="40" y="344" class="s" text-anchor="start" fill="#5B6B66">Each node reads the state and returns its changes.</text>
+<rect x="20" y="442" width="80" height="56" rx="28" fill="#F0F2F1" stroke="#5B6B66" stroke-width="3"/>
+<text x="60" y="478" class="s" text-anchor="middle">START</text>
+<rect x="130" y="415" width="200" height="110" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="146" y="449" class="t" text-anchor="start" fill="#1E7A55">planner</text>
+<text x="146" y="479" class="s" text-anchor="start">splits the goal</text>
+<text x="146" y="504" class="s" text-anchor="start">into tasks</text>
+<rect x="360" y="415" width="200" height="110" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="376" y="449" class="t" text-anchor="start" fill="#1E7A55">research</text>
+<text x="376" y="479" class="s" text-anchor="start">gathers facts,</text>
+<text x="376" y="504" class="s" text-anchor="start">rules, past runs</text>
+<rect x="590" y="415" width="200" height="110" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="606" y="449" class="t" text-anchor="start" fill="#1E7A55">executor</text>
+<text x="606" y="479" class="s" text-anchor="start">forecasts, picks</text>
+<text x="606" y="504" class="s" text-anchor="start">a plan</text>
+<rect x="820" y="415" width="200" height="110" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="836" y="449" class="t" text-anchor="start" fill="#1E7A55">critic</text>
+<text x="836" y="479" class="s" text-anchor="start">checks the plan,</text>
+<text x="836" y="504" class="s" text-anchor="start">chooses the route</text>
+<path d="M100,470 L130,470" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M330,470 L360,470" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M560,470 L590,470" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<path d="M790,470 L820,470" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<rect x="1130" y="295" width="220" height="110" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="1146" y="329" class="t" text-anchor="start" fill="#1E7A55">automation</text>
+<text x="1146" y="359" class="s" text-anchor="start">orders, prep sheet,</text>
+<text x="1146" y="384" class="s" text-anchor="start">saves a lesson</text>
+<rect x="1130" y="535" width="220" height="110" rx="14" fill="#FBE4E1" stroke="#C0392B" stroke-width="3"/>
+<text x="1146" y="569" class="t" text-anchor="start" fill="#C0392B">human</text>
+<text x="1146" y="599" class="s" text-anchor="start">the manager decides;</text>
+<text x="1146" y="624" class="s" text-anchor="start">nothing is ordered</text>
+<rect x="1450" y="442" width="110" height="56" rx="28" fill="#F0F2F1" stroke="#5B6B66" stroke-width="3"/>
+<text x="1505" y="478" class="s" text-anchor="middle">END</text>
+<path d="M1020,455 L1130,370" fill="none" stroke="#1E7A55" stroke-width="3" stroke-dasharray="9 6" marker-end="url(#h-green)"/>
+<text x="1062" y="452" class="i" text-anchor="start" fill="#1E7A55">approve</text>
+<path d="M1020,485 L1130,575" fill="none" stroke="#C0392B" stroke-width="3" stroke-dasharray="9 6" marker-end="url(#h-red)"/>
+<text x="945" y="550" class="i" text-anchor="start" fill="#C0392B">escalate</text>
+<path d="M920,415 L920,372 L690,372 L690,415" fill="none" stroke="#C0392B" stroke-width="3" stroke-dasharray="9 6" marker-end="url(#h-red)"/>
+<text x="805" y="360" class="i" text-anchor="middle" fill="#C0392B">revise (at most 2 times)</text>
+<path d="M1350,370 L1450,458" fill="none" stroke="#1E7A55" stroke-width="3" marker-end="url(#h-green)"/>
+<path d="M1350,575 L1450,485" fill="none" stroke="#C0392B" stroke-width="3" marker-end="url(#h-red)"/>
+<text x="780" y="612" class="i" text-anchor="start" fill="#5B6B66">route_after_critic reads review.verdict</text>
+<path d="M40,640 L110,640" fill="none" stroke="#5B6B66" stroke-width="3" marker-end="url(#h-grey)"/>
+<text x="125" y="647" class="s" text-anchor="start" fill="#5B6B66">fixed edge</text>
+<path d="M40,676 L110,676" fill="none" stroke="#1E7A55" stroke-width="3" stroke-dasharray="9 6" marker-end="url(#h-green)"/>
+<text x="125" y="683" class="s" text-anchor="start" fill="#5B6B66">conditional edge (chosen by route_after_critic)</text>
+<rect x="20" y="715" width="1560" height="65" rx="14" fill="#EEF7F1" stroke="#1E7A55" stroke-width="3"/>
+<text x="800" y="757" class="t" text-anchor="middle">Sequential multi-agent pipeline with a revision loop (Critic to Executor). Nothing runs in parallel.</text>
+</svg>

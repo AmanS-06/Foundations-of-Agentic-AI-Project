@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="860" viewBox="0 0 1600 860">
+<defs><marker id="h-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5B6B66"/></marker><marker id="h-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C0392B"/></marker><marker id="h-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2F6F8F"/></marker><marker id="h-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#B7791F"/></marker><marker id="h-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1E7A55"/></marker>
+<style>
+text { font-family: 'Segoe UI', Arial, sans-serif; fill: #1B2B26; }
+.t { font-size: 26px; font-weight: 700; }
+.h { font-size: 30px; font-weight: 700; }
+.b { font-size: 23px; }
+.u { font-size: 23px; font-weight: 700; }
+.s { font-size: 20px; }
+.i { font-size: 20px; font-style: italic; }
+</style></defs>
+<rect width="1600" height="860" fill="#FFFFFF"/>
+<rect x="15" y="15" width="1120" height="830" rx="18" fill="#F8FAF9" stroke="#8FA39A" stroke-width="3.5"/>
+<text x="35" y="50" class="t" text-anchor="start" fill="#5B6B66">HOST: the ZeroPlate app (Streamlit + LangGraph, one process)</text>
+<rect x="35" y="70" width="420" height="105" rx="14" fill="#F0F2F1" stroke="#5B6B66" stroke-width="3"/>
+<text x="51" y="104" class="t" text-anchor="start" fill="#5B6B66">Streamlit UI</text>
+<text x="51" y="134" class="s" text-anchor="start">the manager picks a date, a goal</text>
+<text x="51" y="159" class="s" text-anchor="start">and a note, and sees every step</text>
+<rect x="640" y="70" width="480" height="105" rx="14" fill="#EEE8F6" stroke="#6B4FA3" stroke-width="3"/>
+<text x="656" y="104" class="t" text-anchor="start" fill="#6B4FA3">AI language model (LLM)</text>
+<text x="656" y="134" class="s" text-anchor="start">local Mistral; its answers are replayed</text>
+<text x="656" y="159" class="s" text-anchor="start">in the demo; numbers come from tools</text>
+<path d="M200,175 V210" fill="none" stroke="#5B6B66" stroke-width="3"/>
+<path d="M880,175 V210" fill="none" stroke="#5B6B66" stroke-width="3"/>
+<rect x="35" y="210" width="1085" height="270" rx="14" fill="#F1F8F4" stroke="#1E7A55" stroke-width="3"/>
+<text x="55" y="247" class="t" text-anchor="start" fill="#1E7A55">LangGraph (graph.py) + PlanState</text>
+<rect x="55" y="275" width="190" height="115" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="71" y="309" class="u" text-anchor="start" fill="#1E7A55">1 Planner</text>
+<text x="71" y="339" class="s" text-anchor="start">splits the goal</text>
+<text x="71" y="364" class="s" text-anchor="start">into tasks</text>
+<rect x="270" y="275" width="190" height="115" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="286" y="309" class="u" text-anchor="start" fill="#1E7A55">2 Research</text>
+<text x="286" y="339" class="s" text-anchor="start">gathers facts,</text>
+<text x="286" y="364" class="s" text-anchor="start">rules, past runs</text>
+<rect x="485" y="275" width="190" height="115" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="501" y="309" class="u" text-anchor="start" fill="#1E7A55">3 Executor</text>
+<text x="501" y="339" class="s" text-anchor="start">forecasts and</text>
+<text x="501" y="364" class="s" text-anchor="start">picks a plan</text>
+<rect x="700" y="275" width="190" height="115" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="716" y="309" class="u" text-anchor="start" fill="#1E7A55">4 Critic</text>
+<text x="716" y="339" class="s" text-anchor="start">checks the plan,</text>
+<text x="716" y="364" class="s" text-anchor="start">6 rules + schema</text>
+<rect x="915" y="275" width="190" height="115" rx="14" fill="#E3F1E9" stroke="#1E7A55" stroke-width="3"/>
+<text x="931" y="309" class="u" text-anchor="start" fill="#1E7A55">5 Automation</text>
+<text x="931" y="339" class="s" text-anchor="start">places orders,</text>
+<text x="931" y="364" class="s" text-anchor="start">writes prep sheet</text>
+<path d="M245,332 L270,332" fill="none" stroke="#5B6B66" stroke-width="2.5" marker-end="url(#h-grey)"/>
+<path d="M460,332 L485,332" fill="none" stroke="#5B6B66" stroke-width="2.5" marker-end="url(#h-grey)"/>
+<path d="M675,332 L700,332" fill="none" stroke="#5B6B66" stroke-width="2.5" marker-end="url(#h-grey)"/>
+<path d="M890,332 L915,332" fill="none" stroke="#5B6B66" stroke-width="2.5" marker-end="url(#h-grey)"/>
+<path d="M795,275 V245 H580 V275" fill="none" stroke="#C0392B" stroke-width="3" stroke-dasharray="9 6" marker-end="url(#h-red)"/>
+<text x="687" y="236" class="i" text-anchor="middle" fill="#C0392B">revise, at most 2 times</text>
+<text x="55" y="428" class="i" text-anchor="start" fill="#C0392B">Escalate: a person decides, nothing is ordered.</text>
+<text x="55" y="460" class="s" text-anchor="start" fill="#1E7A55">Sequential pipeline with a revision loop. Nothing runs in parallel.</text>
+<path d="M190,480 V515" fill="none" stroke="#5B6B66" stroke-width="3"/>
+<path d="M510,480 V515" fill="none" stroke="#5B6B66" stroke-width="3"/>
+<path d="M900,480 V515" fill="none" stroke="#5B6B66" stroke-width="3"/>
+<rect x="35" y="515" width="305" height="175" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="51" y="549" class="t" text-anchor="start" fill="#B7791F">RAG knowledge base</text>
+<text x="51" y="579" class="s" text-anchor="start">local tool, not MCP</text>
+<text x="51" y="604" class="s" text-anchor="start">39 chunks, ChromaDB + BM25,</text>
+<text x="51" y="629" class="s" text-anchor="start">fused with RRF</text>
+<rect x="360" y="515" width="305" height="175" rx="14" fill="#FDF1DC" stroke="#B7791F" stroke-width="3"/>
+<text x="376" y="549" class="t" text-anchor="start" fill="#B7791F">Memory (SQLite)</text>
+<text x="376" y="579" class="s" text-anchor="start">local tool, not MCP</text>
+<text x="376" y="604" class="s" text-anchor="start">past runs and lessons;</text>
+<text x="376" y="629" class="s" text-anchor="start">Research reads it,</text>
+<text x="376" y="654" class="s" text-anchor="start">Automation writes it</text>
+<rect x="685" y="515" width="435" height="175" rx="14" fill="#E4EEF6" stroke="#2F6F8F" stroke-width="3"/>
+<text x="701" y="549" class="t" text-anchor="start" fill="#2F6F8F">MCP client: MCPHub</text>
+<text x="701" y="579" class="s" text-anchor="start">checks the allowlist on every call,</text>
+<text x="701" y="604" class="s" text-anchor="start">keeps one ClientSession per</text>
+<text x="701" y="629" class="s" text-anchor="start">server, talks to them over stdio</text>
+<rect x="35" y="715" width="345" height="115" rx="14" fill="#FBE4E1" stroke="#C0392B" stroke-width="3"/>
+<text x="51" y="749" class="t" text-anchor="start" fill="#C0392B">Note scanner</text>
+<text x="51" y="779" class="s" text-anchor="start">checks the manager&#x27;s note</text>
+<text x="51" y="804" class="s" text-anchor="start">before anyone uses it</text>
+<rect x="395" y="715" width="345" height="115" rx="14" fill="#FBE4E1" stroke="#C0392B" stroke-width="3"/>
+<text x="411" y="749" class="t" text-anchor="start" fill="#C0392B">Allowlist (in MCPHub)</text>
+<text x="411" y="779" class="s" text-anchor="start">checks every tool call:</text>
+<text x="411" y="804" class="s" text-anchor="start">may this agent use this tool?</text>
+<rect x="755" y="715" width="345" height="115" rx="14" fill="#FBE4E1" stroke="#C0392B" stroke-width="3"/>
+<text x="771" y="749" class="t" text-anchor="start" fill="#C0392B">Fact check (rule C6)</text>
+<text x="771" y="779" class="s" text-anchor="start">every number in the summary</text>
+<text x="771" y="804" class="s" text-anchor="start">must match a tool output</text>
+<rect x="1260" y="60" width="320" height="180" rx="14" fill="#E4EEF6" stroke="#2F6F8F" stroke-width="3"/>
+<text x="1276" y="94" class="t" text-anchor="start" fill="#2F6F8F">Education server</text>
+<text x="1276" y="124" class="s" text-anchor="start">FastMCP subprocess</text>
+<text x="1276" y="149" class="s" text-anchor="start">calendar and</text>
+<text x="1276" y="174" class="s" text-anchor="start">expected attendance</text>
+<rect x="1260" y="320" width="320" height="180" rx="14" fill="#E4EEF6" stroke="#2F6F8F" stroke-width="3"/>
+<text x="1276" y="354" class="t" text-anchor="start" fill="#2F6F8F">Supply server</text>
+<text x="1276" y="384" class="s" text-anchor="start">FastMCP subprocess</text>
+<text x="1276" y="409" class="s" text-anchor="start">stock, recipes, suppliers,</text>
+<text x="1276" y="434" class="s" text-anchor="start">leftovers, purchase orders</text>
+<rect x="1260" y="580" width="320" height="180" rx="14" fill="#E4EEF6" stroke="#2F6F8F" stroke-width="3"/>
+<text x="1276" y="614" class="t" text-anchor="start" fill="#2F6F8F">Finance server</text>
+<text x="1276" y="644" class="s" text-anchor="start">FastMCP subprocess</text>
+<text x="1276" y="669" class="s" text-anchor="start">budget, plan costing,</text>
+<text x="1276" y="694" class="s" text-anchor="start">waste-cost log</text>
+<path d="M1120,560 H1170 V150 H1260" fill="none" stroke="#2F6F8F" stroke-width="3.5" marker-end="url(#h-blue)" marker-start="url(#h-blue)"/>
+<path d="M1120,605 H1190 V410 H1260" fill="none" stroke="#2F6F8F" stroke-width="3.5" marker-end="url(#h-blue)" marker-start="url(#h-blue)"/>
+<path d="M1120,650 H1210 V670 H1260" fill="none" stroke="#2F6F8F" stroke-width="3.5" marker-end="url(#h-blue)" marker-start="url(#h-blue)"/>
+</svg>
