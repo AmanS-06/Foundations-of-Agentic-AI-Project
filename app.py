@@ -245,7 +245,13 @@ def view_overview(s: dict) -> None:
             f"Rs {chosen.expected_waste_cost:,.0f}",
             f"shortage Rs {chosen.expected_shortage_cost:,.0f}",
         ),
-        card("Purchase orders", f"Rs {plan.purchase_cost:,.0f}", f"{len(plan.purchases)} lines"),
+        (
+            card("Purchase orders", f"Rs {plan.purchase_cost:,.0f}", f"{len(plan.purchases)} lines")
+            if s["status"] == "approved"
+            else card(
+                "Proposed purchases", f"Rs {plan.purchase_cost:,.0f}", "not ordered: escalated"
+            )
+        ),
     ]
     for col, html in zip(cols, cards, strict=True):
         col.markdown(html, unsafe_allow_html=True)
@@ -473,10 +479,17 @@ def view_documents(s: dict) -> None:
         st.json(json.loads(s["plan"].model_dump_json()), expanded=False)
 
 
+def heldout_dir() -> Path | None:
+    """The held-out dataset (different seed) if it exists, else the main data."""
+    path = config.DATA_DIR / "heldout"
+    return path if (path / "history.csv").exists() else None
+
+
 def view_evaluation() -> None:
     st.caption(
-        "Runs all six scenarios and a 30-day held-out backtest against the canteen's old habit "
-        "(last week's sales + 15%). Simulation on synthetic data."
+        "Runs all six scenarios, then a 30-day backtest against the canteen's old habit (last "
+        "week's sales + 15%) on the held-out dataset, generated with a different seed than the "
+        "data the system was built on. Simulation on synthetic data."
     )
     if st.button("Run the benchmark", icon=":material/science:"):
         ctx = AgentContext(
@@ -486,7 +499,7 @@ def view_evaluation() -> None:
             memory=Memory(config.OUTPUTS_DIR / "eval" / "memory.db"),
         )
         with st.spinner("Running six scenarios and the backtest..."):
-            st.session_state["report"] = evaluate(ctx)
+            st.session_state["report"] = evaluate(ctx, raw_dir=heldout_dir())
     report = st.session_state.get("report")
     if not report:
         return
@@ -515,7 +528,7 @@ def view_evaluation() -> None:
         unsafe_allow_html=True,
     )
     cols[3].markdown(
-        card("Forecast error", f"{b['forecast_mape_pct']}%", "MAPE, held-out days"),
+        card("Forecast error", f"{b['forecast_mape_pct']}%", "MAPE, held-out dataset"),
         unsafe_allow_html=True,
     )
     fig = go.Figure()
@@ -529,9 +542,12 @@ def view_evaluation() -> None:
             name=label,
             marker_color=color,
         )
-    fig.update_layout(title=f"Held-out backtest: {b['days']} days", barmode="group", **PLOT_LAYOUT)
+    fig.update_layout(
+        title=f"Backtest on the held-out dataset: {b['days']} days", barmode="group", **PLOT_LAYOUT
+    )
     st.plotly_chart(fig, width="stretch")
-    st.markdown(to_markdown(report))
+    # the report's first line is its own title; the view already has one
+    st.markdown(to_markdown(report).split("\n", 1)[1])
 
 
 def view_system() -> None:
