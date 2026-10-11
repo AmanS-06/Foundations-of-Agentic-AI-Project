@@ -26,7 +26,7 @@ def reuse_verdict(batch: LeftoverBatch, plan_date: date) -> tuple[bool, str]:
     """(safe, reason) for reusing `batch` on `plan_date`."""
     age_h = (service_time(plan_date) - batch.cooked_at).total_seconds() / 3600
     if batch.reheated_count >= config.MAX_REHEATS:
-        return False, f"already reheated {batch.reheated_count}x (FSSAI: reheat only once)"
+        return False, f"already reheated {batch.reheated_count}x, FSSAI allows only one reheat, so it must be discarded"
     if age_h > config.MAX_AGE_HOURS:
         return False, f"{age_h:.0f} h old (FSSAI: eat within {config.MAX_AGE_HOURS} h)"
     if batch.holding is Holding.HOT and batch.temp_c >= config.HOT_HOLD_MIN_C:

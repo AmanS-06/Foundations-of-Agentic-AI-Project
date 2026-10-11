@@ -58,10 +58,11 @@ This records the model's answers to `data/recordings/answers.json`. The app repl
 
 ```bash
 .venv\Scripts\python -m pytest -q
+set PYTHONPATH=src
 .venv\Scripts\python -m zeroplate.eval.run_eval --mcp
 ```
 
-The second command (run with `PYTHONPATH=src`, or from the app's *Evaluation* view) runs six benchmark scenarios and a 30-day held-out backtest against the canteen's old habit of cooking last week's sales plus 15%.
+The eval command (needs `PYTHONPATH=src`, set on the line above; or run it from the app's *Evaluation* view) runs six benchmark scenarios and a 30-day held-out backtest against the canteen's old habit of cooking last week's sales plus 15%.
 
 ## Project layout
 

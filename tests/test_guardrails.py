@@ -61,7 +61,7 @@ def test_chilled_khichdi_may_be_reused(batches):
 
 def test_already_reheated_biryani_is_blocked(batches):
     safe, reason = reuse_verdict(batches["B3"], FEST)
-    assert not safe and "reheat only once" in reason
+    assert not safe and "must be discarded" in reason
 
 
 def test_hot_held_food_is_safe_within_24h():
