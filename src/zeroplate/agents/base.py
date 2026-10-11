@@ -105,7 +105,24 @@ def _short(value: Any, limit: int = 240) -> str:
     return text if len(text) <= limit else text[: limit - 3] + "..."
 
 
-def calendar_events(ctx: AgentContext) -> dict[date, Event]:
-    """Every date's event type, read from the Education server's calendar resource."""
-    rows = json.loads(ctx.hub.read_resource("education://academic_calendar"))
-    return {date.fromisoformat(r["date"]): Event(r["event"]) for r in rows}
+def calendar_events(
+    ctx: AgentContext, agent: str, days: list[date], cache: dict[str, str] | None = None
+) -> tuple[dict[date, Event], dict[str, str]]:
+    """Event type of every day in `days`, plus the updated cache (ISO date -> event).
+
+    Cheapest source first: the run's short-term memory (cache); then the calendar resource, if
+    the Education server publishes it as a JSON list of days; otherwise one
+    education.get_calendar_event call per missing day.
+    """
+    cache = dict(cache or {})
+    if any(d.isoformat() not in cache for d in days):
+        try:
+            rows = json.loads(ctx.hub.read_resource("education://academic_calendar"))
+            cache.update({r["date"]: r["event"] for r in rows})
+        except (ValueError, TypeError, KeyError):
+            pass  # the resource is a text summary, not a list of days: ask day by day
+        for d in days:
+            if d.isoformat() not in cache:
+                row = ctx.hub.call(agent, "education.get_calendar_event", {"date": d.isoformat()})
+                cache[d.isoformat()] = row["event"]
+    return {d: Event(cache[d.isoformat()]) for d in days}, cache

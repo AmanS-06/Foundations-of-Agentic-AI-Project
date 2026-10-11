@@ -85,3 +85,16 @@ def test_every_agent_talks_through_messages(ctx):
     s = run_plan(ctx, "2026-10-16")
     senders = {m.sender for m in s["messages"]}
     assert senders == {"planner", "research", "executor", "critic", "automation"}
+
+
+def test_text_calendar_resource_falls_back_to_per_day_calls(ctx, monkeypatch):
+    # Anhad's Education server publishes the calendar resource as a text summary, not JSON
+    expected = run_plan(ctx, "2026-10-16")
+    monkeypatch.setattr(ctx.hub, "read_resource", lambda uri: "Academic calendar: 210 days ...")
+    s = run_plan(ctx, "2026-10-16")
+    assert s["status"] == "approved"
+    assert {d.dish: d.planned for d in s["plan"].dishes} == {
+        d.dish: d.planned for d in expected["plan"].dishes
+    }
+    calls = [c.tool for c in ctx.hub.calls if c.tool == "education.get_calendar_event"]
+    assert len(calls) > 100  # per-day calls happened, once per run (cached across revisions)

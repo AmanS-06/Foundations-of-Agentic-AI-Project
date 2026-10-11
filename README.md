@@ -80,4 +80,4 @@ src/zeroplate/
 tests/                     tests and sample fixture data
 ```
 
-The Education MCP server lives at `src/zeroplate/mcp_servers/education_server.py`. Until it is added, the hub uses a test stand-in from `tests/fixtures/education_stub.py`.
+The Education MCP server lives at `src/zeroplate/mcp_servers/edu_server.py`. Until it is added, the hub uses a test stand-in from `tests/fixtures/education_stub.py`.

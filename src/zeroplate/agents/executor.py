@@ -150,9 +150,13 @@ def run(state: PlanState, ctx: AgentContext) -> dict:
             "rows"
         ]
     ]
-    events = calendar_events(ctx)
-    steps.think("Read the academic calendar resource for past event types", f"{len(events)} days")
     days = sorted({r.date for r in history} | {plan_date})
+    known = state.get("calendar_cache") or {}
+    events, calendar_cache = calendar_events(ctx, "executor", days, known)
+    steps.think(
+        "Event type of every past day (academic calendar)",
+        f"{len(days)} days, {len(calendar_cache) - len(known)} newly fetched",
+    )
     cache = state.get("attendance_cache") or {}
     if all(d.isoformat() in cache for d in days):
         present = {d: cache[d.isoformat()] for d in days}
@@ -283,7 +287,9 @@ def run(state: PlanState, ctx: AgentContext) -> dict:
         )
 
     steps.say("critic", "request", f"Please review: {plan.summary}")
-    return steps.out(plan=plan, decision=decision, attendance_cache=cache)
+    return steps.out(
+        plan=plan, decision=decision, attendance_cache=cache, calendar_cache=calendar_cache
+    )
 
 
 def _attendance(ctx: AgentContext, steps: Steps, days: list[date]) -> dict[date, int]:

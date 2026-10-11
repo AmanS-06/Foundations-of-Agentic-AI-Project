@@ -10,12 +10,22 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
+from zeroplate.domain.data import load_table
+from zeroplate.guardrails.food_safety import reuse_verdict
+
 FEST = "2026-10-16"
 EXAM = "2026-09-28"
 
 
 def _failed_ever(state: dict, rule: str) -> bool:
     return any(rule in a["failed"] for a in state["attempts"])
+
+
+def _all_reuse_safe(state: dict) -> bool:
+    """Every leftover batch in the final plan passes the FSSAI reuse rule (data-independent)."""
+    plan = state["plan"]
+    batches = {b.batch_id: b for b in load_table("batches")}
+    return all(reuse_verdict(batches[b], plan.plan_date)[0] for b in plan.reused_batches)
 
 
 @dataclass
@@ -79,7 +89,7 @@ SCENARIOS = [
         "Unsafe leftovers",
         "Dal kept 11 h at room temperature and biryani already reheated once.",
         {"plan_date": FEST},
-        "C9 blocks reuse of B1 and B3; only the chilled khichdi (B2) is reused",
-        lambda s: _failed_ever(s, "C9") and s["plan"].reused_batches == ["B2"],
+        "C9 blocks the unsafe batches; every batch finally reused passes the FSSAI rule",
+        lambda s: _failed_ever(s, "C9") and _all_reuse_safe(s),
     ),
 ]

@@ -29,7 +29,11 @@ def live_hub():
 
 
 def test_servers_are_discovered_over_mcp(live_hub):
-    assert live_hub.tools() == EXPECTED_TOOLS
+    # each server offers at least the contract's tools (the real Education server has extras)
+    found = live_hub.tools()
+    assert set(found) == set(EXPECTED_TOOLS)
+    for server, tools in EXPECTED_TOOLS.items():
+        assert set(tools) <= set(found[server]), server
 
 
 def test_tool_call_over_mcp(live_hub):

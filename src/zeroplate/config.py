@@ -41,9 +41,9 @@ LLM_TIMEOUT_S = 120
 
 # ---------------------------------------------------------------- MCP
 USE_MCP = os.environ.get("ZEROPLATE_USE_MCP", "1") == "1"  # 0 = call the same functions in-process
-# Anhad's Education server must live at this module path (contract). Until it exists, the hub
-# uses the test stand-in in tests/fixtures/education_stub.py.
-EDUCATION_SERVER = "zeroplate.mcp_servers.education_server"
+# Anhad's Education server. Until it exists, the hub uses the test stand-in in
+# tests/fixtures/education_stub.py.
+EDUCATION_SERVER = "zeroplate.mcp_servers.edu_server"
 
 # ---------------------------------------------------------------- orchestration
 MAX_REVISIONS = 2  # Critic may send a plan back at most twice, then a human decides

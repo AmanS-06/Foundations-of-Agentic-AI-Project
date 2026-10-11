@@ -56,7 +56,8 @@ def run(state: PlanState, ctx: AgentContext) -> dict:
         LeftoverBatch.model_validate(r)
         for r in steps.tool("supply.get_leftover_batches", {}, "Leftovers the plan reuses")["rows"]
     ]
-    events = calendar_events(ctx)
+    days = sorted({r.date for r in history} | {plan.plan_date})
+    events, _ = calendar_events(ctx, "critic", days, state.get("calendar_cache"))
 
     citation = ""
     research = state.get("research")

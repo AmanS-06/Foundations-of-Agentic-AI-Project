@@ -40,6 +40,7 @@ class PlanState(TypedDict, total=False):
     # control
     revision: int  # how many times the Critic has sent the plan back
     attendance_cache: dict[str, int]  # observations kept between revisions (short-term memory)
+    calendar_cache: dict[str, str]  # ISO date -> event type, also reused between revisions
     status: str  # running / approved / escalated
     # communication and observability (append-only)
     messages: Annotated[list[AgentMessage], operator.add]
