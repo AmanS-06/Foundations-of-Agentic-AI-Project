@@ -70,7 +70,6 @@ def test_production_plan_needs_at_least_one_dish():
             purchases=[],
             food_cost=0,
             purchase_cost=0,
-            total_cost=0,
             candidates=[],
             chosen_buffer=0,
             summary="",

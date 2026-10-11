@@ -229,6 +229,7 @@ class DishForecast(Strict):
     mean: NonNegativeFloat
     spread: NonNegativeFloat  # standard deviation of past forecast errors
     methods: dict[str, float]  # method name -> estimate (the ensemble members)
+    low_confidence: bool = False  # a method was missing, or the methods disagree by > 20%
 
 
 class Candidate(Strict):
@@ -239,6 +240,7 @@ class Candidate(Strict):
     expected_waste_cost: NonNegativeFloat
     expected_shortage_cost: NonNegativeFloat
     utility: float  # -(waste weight x waste) - (shortage weight x shortage)
+    food_cost: NonNegativeFloat  # cost of cooking these quantities (checked against the budget)
 
 
 class DishPlan(Strict):
@@ -276,9 +278,8 @@ class ProductionPlan(Strict):
     dishes: list[DishPlan] = Field(min_length=1)
     ingredients: list[IngredientNeed]
     purchases: list[PurchaseLine]
-    food_cost: NonNegativeFloat  # cost of all plates cooked
-    purchase_cost: NonNegativeFloat
-    total_cost: NonNegativeFloat
+    food_cost: NonNegativeFloat  # cost of all plates cooked: this is what the budget limits
+    purchase_cost: NonNegativeFloat  # cost of the purchase orders (part of tomorrow's spending)
     candidates: list[Candidate]
     chosen_buffer: float
     summary: str  # model-written; numbers in it are fact-checked (rule C6)

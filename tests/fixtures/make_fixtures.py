@@ -49,16 +49,19 @@ INVENTORY = {
 }
 # supplier: {ingredient: price per unit}, lead time in days
 SUPPLIERS = {
-    "Pune Grains Co": ({"rice": 58, "toor_dal": 135, "moong_dal": 120, "sugar": 44}, 1),
+    "Pune Grains Co": (
+        {"rice": 58, "toor_dal": 135, "moong_dal": 120, "sugar": 44, "tea_leaves": 470},
+        1,
+    ),
     "FreshFarm Daily": ({"mixed_veg": 40, "milk": 56, "chicken": 240, "ghee": 620}, 0),
     "Metro Wholesale": ({"oil": 150, "tea_leaves": 480, "rice": 62, "chicken": 255}, 2),
 }
 EVENT_FACTOR = {"normal": 1.0, "exam": 0.75, "holiday": 0.3, "fest": 1.4, "weekend": 0.5}
 ATTENDANCE = {"normal": 900, "exam": 700, "holiday": 160, "fest": 1150, "weekend": 330}
 ENROLLED = 1200
-DAILY_BUDGET = (
-    31500  # fits a fest day at forecast +0-5%, not at +10% (S1 conflict); tuned in step 4
-)
+# Fest day: the forecast +0% plan fits (about 29.5k), the best-utility +5% plan does not
+# (about 31.0k). That forces scenario S1: reject over budget, revise, approve.
+DAILY_BUDGET = 30000
 FEST_DAYS = {date(2026, 8, 20), date(2026, 8, 21), date(2026, 8, 22), PLAN_DATE}
 EXAM_WEEKS = [(date(2026, 5, 4), date(2026, 5, 15)), (date(2026, 9, 21), date(2026, 10, 2))]
 HOLIDAYS = {date(2026, 5, 1), date(2026, 8, 15), date(2026, 8, 26), date(2026, 9, 14)}
