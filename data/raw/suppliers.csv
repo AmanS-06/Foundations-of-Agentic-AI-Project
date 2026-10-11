@@ -1,0 +1,35 @@
+supplier,ingredient,lead_time_days,price_per_unit
+Pune Grains Co,rice,1,58
+Metro Wholesale,rice,2,54
+Pune Grains Co,toor_dal,1,140
+Metro Wholesale,toor_dal,2,134
+Pune Grains Co,moong_dal,1,120
+Metro Wholesale,moong_dal,2,115
+Pune Grains Co,chana,1,95
+Metro Wholesale,chana,2,90
+Pune Grains Co,wheat_flour,1,40
+Metro Wholesale,wheat_flour,2,37
+Pune Grains Co,maida,1,44
+Metro Wholesale,maida,2,41
+Pune Grains Co,sugar,1,44
+Metro Wholesale,sugar,2,42
+Pune Grains Co,oil,1,150
+Metro Wholesale,oil,2,145
+FreshFarm Daily,mixed_veg,0,42
+FreshFarm Daily,tomato,0,32
+FreshFarm Daily,onion,0,36
+Metro Wholesale,onion,2,34
+FreshFarm Daily,potato,0,30
+Metro Wholesale,potato,2,28
+FreshFarm Daily,chicken,0,230
+Metro Wholesale,chicken,2,245
+Sahyadri Dairy,paneer,0,370
+Sahyadri Dairy,milk,0,56
+Sahyadri Dairy,butter,0,540
+Sahyadri Dairy,ghee,0,650
+Metro Wholesale,ghee,2,640
+FreshFarm Daily,bread,0,55
+Pune Grains Co,tea_leaves,1,480
+Metro Wholesale,tea_leaves,2,460
+Metro Wholesale,coffee_powder,2,900
+Pune Grains Co,coffee_powder,1,940

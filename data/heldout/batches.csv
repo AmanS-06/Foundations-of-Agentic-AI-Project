@@ -1,0 +1,6 @@
+batch_id,dish,cooked_at,plates_left,holding,temp_c,reheated_count
+B1,paneer_curry,2026-10-16T01:00:00,18,ambient,30,0
+B2,jain_khichdi,2026-10-15T17:00:00,12,chilled,4,0
+B3,chicken_biryani,2026-10-15T21:00:00,8,chilled,4,1
+B4,dal_rice,2026-10-16T05:30:00,30,hot,68,0
+B5,veg_thali,2026-10-15T05:00:00,20,chilled,4,0
