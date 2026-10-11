@@ -77,3 +77,16 @@ def test_summary_mentions_every_event_type_and_date_range() -> None:
     rows = load_table("calendar")
     assert min(r.date for r in rows).isoformat() in text
     assert max(r.date for r in rows).isoformat() in text
+
+
+def test_all_calendar_events_returns_every_row_once():
+    rows = education.all_calendar_events()
+    assert len(rows) == len({r.date for r in rows}) == len(load_table("calendar"))
+    assert education.get_calendar_event(date(2026, 10, 16)) in rows
+
+
+def test_all_calendar_events_returns_a_copy():
+    """Changing the returned list must not change the cached calendar."""
+    first = education.all_calendar_events()
+    first.clear()
+    assert education.all_calendar_events()

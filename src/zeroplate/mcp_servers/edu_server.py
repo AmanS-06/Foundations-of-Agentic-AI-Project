@@ -4,6 +4,16 @@ Run as `python -m zeroplate.mcp_servers.edu_server` (needs src on PYTHONPATH) or
 `python src/zeroplate/mcp_servers/edu_server.py`. The hub qualifies each tool with the server
 name, so these tools appear to agents as education.get_calendar_event and so on.
 
+The module path above is part of the contract with the MCP hub (config.EDUCATION_SERVER): the hub
+starts exactly this module, and falls back to a test stand-in if it is not there.
+
+The contract is exactly this, and the hub's tests check it:
+  tools      get_calendar_event(date), get_expected_attendance(date)    (and no others)
+  resource   education://academic_calendar = the WHOLE calendar as a JSON list of rows with the keys
+             date, weekday, event and weather. The Critic and the Executor read it to find the type
+             of day for any date, so it must be machine-readable JSON.
+  extra      education://calendar_summary = a short plain-text description of the calendar.
+
 stdout is the protocol channel of a stdio MCP server: nothing may print there. Logging goes to
 stderr only.
 
@@ -12,6 +22,7 @@ This file is a thin wrapper: it parses the text arguments and calls zeroplate.do
 
 from __future__ import annotations
 
+import json
 import logging
 import re
 import sys
@@ -30,6 +41,7 @@ from zeroplate.domain import education
 
 SERVER_NAME = "education"
 CALENDAR_RESOURCE_URI = "education://academic_calendar"
+SUMMARY_RESOURCE_URI = "education://calendar_summary"
 ISO_DATE_PATTERN = re.compile(r"\d{4}-\d{2}-\d{2}")  # strict: fromisoformat alone accepts more
 
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)
@@ -58,16 +70,16 @@ def get_expected_attendance(date: str) -> dict[str, Any]:
     return education.get_expected_attendance(_parse_date(date)).model_dump(mode="json")
 
 
-@mcp.tool()
-def similar_past_days(date: str, limit: int = 10) -> list[dict[str, Any]]:
-    """Earlier days with the same event type as the ISO date, most recent first."""
-    days = education.similar_past_days(_parse_date(date), limit)
-    return [day.model_dump(mode="json") for day in days]
-
-
 @mcp.resource(CALENDAR_RESOURCE_URI)
 def academic_calendar() -> str:
-    """Read-only plain-text description of the academic calendar."""
+    """Read-only resource: the whole academic calendar as a JSON list of rows."""
+    rows = [event.model_dump(mode="json") for event in education.all_calendar_events()]
+    return json.dumps(rows)
+
+
+@mcp.resource(SUMMARY_RESOURCE_URI)
+def calendar_summary() -> str:
+    """Read-only resource: a short plain-text description of the academic calendar."""
     return education.calendar_summary()
 
 

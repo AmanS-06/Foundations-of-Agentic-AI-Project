@@ -19,6 +19,11 @@ def _calendar() -> list[CalendarEvent]:
     return cast(list[CalendarEvent], load_table("calendar"))
 
 
+def all_calendar_events() -> list[CalendarEvent]:
+    """Every calendar row, in file order (the MCP resource serves these as JSON)."""
+    return list(_calendar())
+
+
 def get_calendar_event(day: date) -> CalendarEvent:
     """Return the calendar entry (event type, weekday, weather) for `day`.
 
