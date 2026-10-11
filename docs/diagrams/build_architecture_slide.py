@@ -1,7 +1,7 @@
 """Draw a simplified, large-text version of the architecture diagram for slides, as SVG and PNG.
 
 The full diagram (build_architecture.py) is meant to be read on paper or zoomed on screen. On a slide its
-text would be far too small, so this version keeps the same parts (agents, MCP hub, offices as tool servers,
+text would be far too small, so this version keeps the same parts (agents, MCP client, offices as tool servers,
 rule documents, memory, note check, AI model) with fewer words, bigger type and plainer names.
 
 Run:  .venv\\Scripts\\python docs\\diagrams\\build_architecture_slide.py
@@ -100,10 +100,10 @@ parts.append(
     f'<rect x="40" y="{HY}" width="1820" height="{HH}" rx="16" fill="#FFFFFF" '
     f'stroke="{SERVER[1]}" stroke-width="3.5"/>'
 )
-parts.append(f'<text x="64" y="{HY + 41}" class="t" fill="{SERVER[1]}">MCP hub</text>')
+parts.append(f'<text x="64" y="{HY + 41}" class="t" fill="{SERVER[1]}">MCP client</text>')
 parts.append(
-    f'<text x="240" y="{HY + 41}" class="b">Every data request passes here. Each agent has a list of tools it may use, '
-    f"and only Business Automation can change anything.</text>"
+    f'<text x="290" y="{HY + 41}" class="b">Inside the host. Each agent has a list of tools it may use, '
+    f"checked on every call. Only Business Automation can write.</text>"
 )
 for x in AX:
     arrow(f"M{x + 60},{AY + AH} L{x + 60},{HY}", SERVER[1], 2.5, both=True)
