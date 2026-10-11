@@ -20,7 +20,8 @@ How the data is made (the story the numbers tell):
 5. Accounts sets the daily budget by type of day with a small fest allowance. It does not know
    how many students will really come. That mismatch is the cross-department conflict.
 
-Run:  .venv\\Scripts\\python scripts\\generate_data.py            (writes data/raw)
+Run:  .venv\\Scripts\\python scripts\\generate_data.py                      (writes data/raw)
+      .venv\\Scripts\\python scripts\\generate_data.py --variant heldout    (writes data/heldout)
       .venv\\Scripts\\python scripts\\generate_data.py --out DIR --seed 7
 """
 
@@ -28,7 +29,8 @@ from __future__ import annotations
 
 import argparse
 import csv
-from dataclasses import dataclass
+from contextlib import contextmanager
+from dataclasses import dataclass, replace
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
@@ -92,6 +94,38 @@ WEATHER_EFFECT = {  # (weather, dish) -> multiplier on demand
     ("hot", "masala_chai"): 0.80,
     ("hot", "cold_coffee"): 1.40,
 }
+
+# ---------------------------------------------------------------- a second world for testing
+# The forecaster must not be judged on data made by the very numbers it learned from. The
+# "heldout" variant is a second dataset with a different seed AND slightly different multipliers
+# (every one within about 10 to 15 percent of the default). Only the world that makes demand
+# changes. The canteen's fixed setup (menu, recipes, store, suppliers, budget rules, leftover
+# batches) is identical, so a plan can be compared across both datasets.
+HELDOUT_SEED = 7
+HELDOUT = {
+    "base_present": {"normal": 930, "exam": 660, "holiday": 175, "fest": 1100, "weekend": 360},
+    "per_head_scale": {  # multiplier on each dish's plates per student
+        "veg_thali": 1.08,
+        "chicken_biryani": 0.93,
+        "jain_khichdi": 1.10,
+        "paneer_curry": 0.95,
+        "dal_rice": 1.05,
+        "chole_bhature": 0.92,
+        "veg_sandwich": 1.07,
+        "samosa": 0.94,
+        "masala_chai": 1.04,
+        "cold_coffee": 0.96,
+    },
+    "weather_effect": {
+        ("rainy", "masala_chai"): 1.35,
+        ("rainy", "samosa"): 1.10,
+        ("rainy", "cold_coffee"): 0.60,
+        ("hot", "masala_chai"): 0.75,
+        ("hot", "cold_coffee"): 1.50,
+    },
+    "dish_noise": 0.10,
+}
+VARIANTS = {"default": None, "heldout": HELDOUT}  # None = use the constants above as they are
 
 # ---------------------------------------------------------------- the old way of working
 # The cook looks at what sold on the same weekday in recent weeks, and adds a safety margin.
@@ -413,12 +447,52 @@ def _batch_rows() -> list[list]:
     ]
 
 
-def generate(out: Path, seed: int = SEED) -> dict[str, float]:
-    """Write all nine CSVs into `out`. Returns a few summary numbers for checking."""
+@contextmanager
+def _world(variant: str):
+    """Temporarily swap in the demand multipliers of a variant, then restore the originals.
+
+    Only the world that makes demand changes (headcounts, plates per student, weather effects,
+    noise). The canteen's fixed setup (menu, recipes, store, suppliers, budget rules, leftover
+    batches) is always built outside this block, so it is identical in every variant.
+    """
+    if variant not in VARIANTS:
+        raise ValueError(f"unknown variant {variant!r}; expected one of {sorted(VARIANTS)}")
+    spec = VARIANTS[variant]
+    if spec is None:  # the default world: nothing to swap
+        yield
+        return
+    names = ("BASE_PRESENT", "WEATHER_EFFECT", "DISH_NOISE", "MENU")
+    saved = {n: globals()[n] for n in names}
+    try:
+        globals()["BASE_PRESENT"] = dict(spec["base_present"])
+        globals()["WEATHER_EFFECT"] = dict(spec["weather_effect"])
+        globals()["DISH_NOISE"] = spec["dish_noise"]
+        globals()["MENU"] = {
+            name: replace(dish, per_head=round(dish.per_head * spec["per_head_scale"][name], 4))
+            for name, dish in saved["MENU"].items()
+        }
+        yield
+    finally:
+        globals().update(saved)
+
+
+def generate(out: Path, seed: int | None = None, variant: str = "default") -> dict[str, float]:
+    """Write all nine CSVs into `out`. Returns a few summary numbers for checking.
+
+    `variant` picks the demand world: "default" is the project's dataset (seed 42 unless a seed
+    is given); "heldout" is a second, different world for testing on data the forecaster has not
+    seen (seed 7 unless a seed is given). `seed=None` means "the variant's own seed".
+    """
+    if seed is None:
+        seed = HELDOUT_SEED if variant == "heldout" else SEED
     rng = np.random.default_rng(seed)
     start = PLAN_DATE - timedelta(days=HISTORY_DAYS)
     dates = [start + timedelta(days=i) for i in range(HISTORY_DAYS + FUTURE_DAYS)]
-    days = _draw_days(rng, dates)
+    # Both random steps run in the chosen world and in the original order (days, then history),
+    # so the default variant draws exactly the same numbers as before.
+    with _world(variant):
+        days = _draw_days(rng, dates)
+        history = _simulate_history(rng, days)
 
     _write(
         out,
@@ -481,7 +555,6 @@ def generate(out: Path, seed: int = SEED) -> dict[str, float]:
             for supplier, price in ing.offers
         ],
     )
-    history = _simulate_history(rng, days)
     _write(
         out,
         "history",
@@ -509,11 +582,13 @@ def main() -> None:
     """Command line entry point."""
     parser = argparse.ArgumentParser(description="Generate the synthetic canteen dataset.")
     root = Path(__file__).resolve().parents[1]
-    parser.add_argument("--out", type=Path, default=root / "data" / "raw")
-    parser.add_argument("--seed", type=int, default=SEED)
+    parser.add_argument("--variant", choices=sorted(VARIANTS), default="default")
+    parser.add_argument("--out", type=Path, default=None, help="default: data/raw or data/heldout")
+    parser.add_argument("--seed", type=int, default=None, help="default: 42, or 7 for heldout")
     args = parser.parse_args()
-    stats = generate(args.out, args.seed)
-    print(f"wrote the nine CSVs to {args.out}")
+    out = args.out or root / "data" / ("heldout" if args.variant == "heldout" else "raw")
+    stats = generate(out, args.seed, args.variant)
+    print(f"wrote the nine CSVs ({args.variant} variant) to {out}")
     print(f"  history waste share      {stats['waste_share']:.1%} of plates cooked")
     print(f"  demand that went unmet   {stats['unmet_demand_share']:.1%}")
     print(f"  days with a shortage     {stats['days_with_shortage']} of {HISTORY_DAYS}")

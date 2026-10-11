@@ -248,3 +248,104 @@ def test_leftover_batches_cover_every_reuse_decision(data):
     assert batches["B3"].reheated_count == 1
     assert all(b.cooked_at.date() <= plan_morning for b in batches.values())
     assert min(b.cooked_at for b in batches.values()).date() < plan_morning  # one older than 24 h
+
+
+# ---------------------------------------------------------------- the held-out dataset
+@pytest.fixture(scope="module")
+def heldout(tmp_path_factory):
+    """The second, different world, generated once per test module."""
+    out = tmp_path_factory.mktemp("heldout")
+    return out, gen.generate(out, variant="heldout")
+
+
+def test_heldout_follows_the_contract(heldout):
+    out, _ = heldout
+    counts = check_all(out)
+    assert counts["calendar"] == 210 and counts["history"] == 180 * counts["menu"]
+
+
+def test_heldout_is_deterministic(tmp_path):
+    gen.generate(tmp_path / "a", variant="heldout")
+    gen.generate(tmp_path / "b", variant="heldout")
+    for file in (tmp_path / "a").glob("*.csv"):
+        assert file.read_bytes() == (tmp_path / "b" / file.name).read_bytes()
+
+
+def test_heldout_uses_its_own_seed_unless_told_otherwise(tmp_path):
+    gen.generate(tmp_path / "a", variant="heldout")
+    gen.generate(tmp_path / "b", seed=gen.HELDOUT_SEED, variant="heldout")
+    gen.generate(tmp_path / "c", seed=gen.SEED, variant="heldout")
+    same = (tmp_path / "a" / "history.csv").read_bytes()
+    assert same == (tmp_path / "b" / "history.csv").read_bytes()
+    assert same != (tmp_path / "c" / "history.csv").read_bytes()
+
+
+def test_heldout_changes_only_the_world_that_makes_demand(data, heldout):
+    """Calendar weather, attendance and history differ; the canteen's fixed setup is identical."""
+    main, held = data[0], heldout[0]
+    for name in ("menu", "recipes", "inventory", "suppliers", "budget", "batches"):
+        assert (main / f"{name}.csv").read_bytes() == (held / f"{name}.csv").read_bytes(), name
+    for name in ("calendar", "attendance", "history"):
+        assert (main / f"{name}.csv").read_bytes() != (held / f"{name}.csv").read_bytes(), name
+
+
+def test_heldout_has_the_same_dates_and_types_of_day(data, heldout):
+    """Same calendar of events, so a plan for one date can be compared across both datasets."""
+    a = {r.date: r.event for r in load_table("calendar", data[0])}
+    b = {r.date: r.event for r in load_table("calendar", heldout[0])}
+    assert a == b
+
+
+def test_heldout_demand_is_a_different_world(data, heldout):
+    """The history differs in a way that matters, not only in random noise."""
+
+    def mean_demand(folder, dish):
+        rows = [r.demand for r in load_table("history", folder) if r.dish == dish]
+        return sum(rows) / len(rows)
+
+    shifts = [abs(mean_demand(heldout[0], d) / mean_demand(data[0], d) - 1) for d in gen.MENU]
+    assert max(shifts) > 0.05  # at least one dish is clearly different
+    assert max(shifts) < 0.25  # but it is still the same kind of canteen
+
+
+def test_heldout_multipliers_are_only_slightly_different():
+    """'Slightly different' is a promise: nothing moves by more than about 20 percent."""
+    spec = gen.HELDOUT
+    for day_type, usual in gen.BASE_PRESENT.items():
+        assert abs(spec["base_present"][day_type] / usual - 1) <= 0.12, day_type
+    assert all(0.90 <= s <= 1.10 for s in spec["per_head_scale"].values())
+    assert set(spec["per_head_scale"]) == set(gen.MENU)
+    for key, usual in gen.WEATHER_EFFECT.items():
+        assert abs(spec["weather_effect"][key] - usual) <= 0.15, key
+    assert set(spec["weather_effect"]) == set(gen.WEATHER_EFFECT)
+    assert spec["dish_noise"] > gen.DISH_NOISE
+
+
+def test_heldout_is_still_a_believable_canteen(heldout):
+    _, stats = heldout
+    assert 0.12 <= stats["waste_share"] <= 0.25
+    assert 0.02 <= stats["unmet_demand_share"] <= 0.15
+
+
+def test_running_the_heldout_variant_leaves_the_default_unchanged(tmp_path):
+    """The settings are swapped in and out; a held-out run must not leak into the next run."""
+    before = (dict(gen.BASE_PRESENT), dict(gen.WEATHER_EFFECT), gen.DISH_NOISE, gen.MENU)
+    gen.generate(tmp_path / "held", variant="heldout")
+    gen.generate(tmp_path / "main")
+    assert (dict(gen.BASE_PRESENT), dict(gen.WEATHER_EFFECT), gen.DISH_NOISE, gen.MENU) == before
+    committed = Path(__file__).resolve().parents[1] / "data" / "raw"
+    for file in (tmp_path / "main").glob("*.csv"):
+        assert (committed / file.name).read_bytes() == file.read_bytes(), file.name
+
+
+def test_unknown_variant_is_rejected(tmp_path):
+    with pytest.raises(ValueError, match="unknown variant"):
+        gen.generate(tmp_path, variant="typo")
+
+
+def test_committed_heldout_data_matches_the_generator(tmp_path):
+    """data/heldout in the repository must be exactly what `--variant heldout` produces."""
+    gen.generate(tmp_path, variant="heldout")
+    committed = Path(__file__).resolve().parents[1] / "data" / "heldout"
+    for file in tmp_path.glob("*.csv"):
+        assert (committed / file.name).read_bytes() == file.read_bytes(), file.name

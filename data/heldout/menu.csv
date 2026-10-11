@@ -1,0 +1,11 @@
+dish,category,diet,price,cost_per_plate,shelf_life_hrs,min_portions
+veg_thali,main,veg,70,35,6,40
+chicken_biryani,main,nonveg,110,61,6,0
+jain_khichdi,main,jain,60,28,6,20
+paneer_curry,main,veg,90,61,6,0
+dal_rice,main,veg,55,27,6,0
+chole_bhature,main,veg,65,30,4,0
+veg_sandwich,snack,veg,40,18,8,0
+samosa,snack,veg,20,11,8,0
+masala_chai,beverage,veg,20,11,3,0
+cold_coffee,beverage,veg,40,22,4,0
