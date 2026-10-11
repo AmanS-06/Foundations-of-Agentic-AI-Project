@@ -1,0 +1,95 @@
+[
+  {
+    "question": "Can a 6-hour-old paneer curry kept at room temperature be served again?",
+    "expected_source": "food_safety_fssai.md",
+    "expected_section": "Project interpretation (ours): may a leftover batch be served again"
+  },
+  {
+    "question": "What temperature does the food on the serving counter have to stay at to be safe?",
+    "expected_source": "food_safety_fssai.md",
+    "expected_section": "Hot and cold holding temperatures for high-risk food"
+  },
+  {
+    "question": "We reheated the leftover chicken biryani once yesterday. Can we heat the rest of it again today?",
+    "expected_source": "food_safety_fssai.md",
+    "expected_section": "Reheating only once: meat, poultry, fish and gravies"
+  },
+  {
+    "question": "How quickly do we have to cool a big pot of dal before it can go into the fridge?",
+    "expected_source": "food_safety_fssai.md",
+    "expected_section": "Cooling cooked food before refrigeration"
+  },
+  {
+    "question": "How long can cooked food that has been in the fridge be used before we have to throw it away?",
+    "expected_source": "food_safety_fssai.md",
+    "expected_section": "Eat cooked food within 24 hours of preparation"
+  },
+  {
+    "question": "We are sending cooked food to a stall at the sports ground in an ordinary box. How long do we have to serve it?",
+    "expected_source": "food_safety_fssai.md",
+    "expected_section": "Transporting cooked food"
+  },
+  {
+    "question": "Do we have to cook Jain food even on a day when almost nobody asks for it?",
+    "expected_source": "canteen_sop.md",
+    "expected_section": "Fairness: vegetarian and Jain dishes"
+  },
+  {
+    "question": "Which ingredients should the kitchen use first tomorrow morning?",
+    "expected_source": "canteen_sop.md",
+    "expected_section": "Use-first rule: earliest expiry first"
+  },
+  {
+    "question": "On a holiday, how many students should we plan for and how much money do we have to spend?",
+    "expected_source": "canteen_sop.md",
+    "expected_section": "Fest, exam and holiday days",
+    "also_needs": [
+      {
+        "expected_source": "budget_policy.md",
+        "expected_section": "Daily food budget by type of day"
+      }
+    ]
+  },
+  {
+    "question": "How much rice and chicken goes into one plate of chicken biryani?",
+    "expected_source": "recipe_yields.md",
+    "expected_section": "chicken_biryani"
+  },
+  {
+    "question": "What does one veg sandwich cost us to make and what do we charge for it?",
+    "expected_source": "recipe_yields.md",
+    "expected_section": "veg_sandwich"
+  },
+  {
+    "question": "A Jain student asks what is in the khichdi and what is the least amount we are sure to make.",
+    "expected_source": "recipe_yields.md",
+    "expected_section": "jain_khichdi",
+    "also_needs": [
+      {
+        "expected_source": "canteen_sop.md",
+        "expected_section": "Fairness: vegetarian and Jain dishes"
+      }
+    ]
+  },
+  {
+    "question": "How much money do we get for a normal Monday compared with the fest day?",
+    "expected_source": "budget_policy.md",
+    "expected_section": "Daily food budget by type of day"
+  },
+  {
+    "question": "The plan for the fest costs more than the budget. Can the system just approve it?",
+    "expected_source": "budget_policy.md",
+    "expected_section": "Plans over budget need the manager's sign-off"
+  },
+  {
+    "question": "For the fest we want 200 plates of paneer curry. How much paneer is that, and can one order cover it?",
+    "expected_source": "budget_policy.md",
+    "expected_section": "Purchase order rules",
+    "also_needs": [
+      {
+        "expected_source": "recipe_yields.md",
+        "expected_section": "paneer_curry"
+      }
+    ]
+  }
+]
