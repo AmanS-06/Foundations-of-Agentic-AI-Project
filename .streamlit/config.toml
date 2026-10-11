@@ -1,0 +1,12 @@
+[theme]
+base = "dark"
+primaryColor = "#7c85e8"
+backgroundColor = "#0b0c0e"
+secondaryBackgroundColor = "#15161a"
+textColor = "#e6e7ea"
+
+[browser]
+gatherUsageStats = false  # nothing is sent anywhere: the demo runs offline
+
+[client]
+toolbarMode = "minimal"

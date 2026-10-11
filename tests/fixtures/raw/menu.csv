@@ -1,0 +1,5 @@
+dish,category,diet,price,cost_per_plate,shelf_life_hrs,min_portions
+veg_thali,main,veg,70,32,6,40
+chicken_biryani,main,nonveg,110,55,6,0
+jain_khichdi,main,jain,60,26,6,20
+masala_chai,beverage,veg,15,5,3,0

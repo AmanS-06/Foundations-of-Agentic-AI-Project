@@ -1,0 +1,14 @@
+supplier,ingredient,lead_time_days,price_per_unit
+Pune Grains Co,rice,1,58
+Pune Grains Co,toor_dal,1,135
+Pune Grains Co,moong_dal,1,120
+Pune Grains Co,sugar,1,44
+Pune Grains Co,tea_leaves,1,470
+FreshFarm Daily,mixed_veg,0,40
+FreshFarm Daily,milk,0,56
+FreshFarm Daily,chicken,0,240
+FreshFarm Daily,ghee,0,620
+Metro Wholesale,oil,2,150
+Metro Wholesale,tea_leaves,2,480
+Metro Wholesale,rice,2,62
+Metro Wholesale,chicken,2,255

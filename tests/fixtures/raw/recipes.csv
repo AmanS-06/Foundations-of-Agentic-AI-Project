@@ -1,0 +1,13 @@
+dish,ingredient,qty_per_plate,unit
+veg_thali,rice,0.15,kg
+veg_thali,toor_dal,0.06,kg
+veg_thali,mixed_veg,0.12,kg
+chicken_biryani,rice,0.18,kg
+chicken_biryani,chicken,0.15,kg
+chicken_biryani,oil,0.02,l
+jain_khichdi,rice,0.1,kg
+jain_khichdi,moong_dal,0.07,kg
+jain_khichdi,ghee,0.01,kg
+masala_chai,milk,0.12,l
+masala_chai,tea_leaves,0.004,kg
+masala_chai,sugar,0.012,kg
