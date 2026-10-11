@@ -1,0 +1,57 @@
+/* ZeroPlate look: dark, quiet, Linear-style. Geist loads from Google Fonts when online and
+   falls back to the system UI font offline. */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap");
+
+html, body, .stMarkdown, .stApp p, .stApp label, .stApp li, .stApp h1, .stApp h2, .stApp h3,
+.stApp h4, .stApp button, .stApp input, .stApp textarea, .stApp [data-baseweb="tab"],
+.stApp [data-baseweb="select"] {
+  font-family: "Geist", "Segoe UI Variable", system-ui, sans-serif !important;
+}
+/* keep Streamlit's icon font for its icons (otherwise their names show as text) */
+[data-testid="stIconMaterial"], .material-symbols-rounded, span[class*="material"] {
+  font-family: "Material Symbols Rounded" !important;
+}
+code, pre, .stCode, [data-testid="stJson"] { font-family: "Geist Mono", Consolas, monospace !important; }
+
+/* slim, dark scrollbars that only show on hover */
+* { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.12) transparent; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.10); border-radius: 99px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background-color: rgba(255,255,255,.22); }
+
+.block-container { padding-top: 2.2rem; max-width: 1280px; }
+h1, h2, h3 { letter-spacing: -0.02em; }
+
+.stApp .zp-title { font-size: 2.3rem !important; font-weight: 650; letter-spacing: -0.035em; margin: 0; line-height: 1.15; }
+.zp-sub { color: #8a8f98; margin: .15rem 0 1rem; }
+.zp-badges { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1.2rem; }
+.zp-badge { font-size: .78rem; color: #b4b8c0; border: 1px solid rgba(255,255,255,.10); border-radius: 99px; padding: .18rem .7rem; background: rgba(255,255,255,.02); }
+.zp-badge b { color: #e6e7ea; font-weight: 550; }
+.zp-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: .4rem; vertical-align: 1px; }
+
+.zp-card { border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: .9rem 1rem; background: #121317; height: 100%; }
+.zp-card .k { color: #8a8f98; font-size: .8rem; }
+.zp-card .v { font-size: 1.45rem; font-weight: 620; letter-spacing: -0.02em; margin-top: .1rem; }
+.zp-card .d { font-size: .8rem; margin-top: .15rem; }
+
+.zp-verdict { border-radius: 12px; padding: .9rem 1.1rem; margin: .3rem 0 1rem; border: 1px solid; }
+.zp-verdict.ok { border-color: rgba(76,183,130,.4); background: rgba(76,183,130,.08); }
+.zp-verdict.esc { border-color: rgba(242,153,74,.45); background: rgba(242,153,74,.08); }
+.zp-verdict h4 { margin: 0 0 .2rem; font-size: 1.05rem; }
+.zp-verdict p { margin: 0; color: #c9ccd2; font-size: .9rem; }
+
+.zp-step { border-left: 2px solid rgba(124,133,232,.5); padding: .15rem 0 .35rem .8rem; margin: .2rem 0; }
+.zp-step.blocked { border-left-color: #eb5757; }
+.zp-step .t { color: #e6e7ea; font-size: .9rem; }
+.zp-step .m { color: #8a8f98; font-size: .78rem; font-family: "Geist Mono", Consolas, monospace; }
+.zp-step .o { color: #b4b8c0; font-size: .82rem; margin-top: .1rem; word-break: break-word; }
+
+.pass { color: #4cb782; font-weight: 600; }
+.fail { color: #eb5757; font-weight: 600; }
+.muted { color: #8a8f98; }
+
+[data-testid="stSidebar"] { border-right: 1px solid rgba(255,255,255,.06); }
+[data-testid="stMetric"] { background: #121317; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: .7rem .9rem; }
+.stTabs [data-baseweb="tab-list"] { gap: .2rem; }
+.stTabs [data-baseweb="tab"] { padding: .4rem .8rem; }

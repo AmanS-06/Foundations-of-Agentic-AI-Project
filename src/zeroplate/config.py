@@ -14,13 +14,22 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"  # CSVs from the data generator (contract: PROJECT_PLAN 8.1)
 KB_DIR = DATA_DIR / "kb"  # knowledge-base markdown files
-MEMORY_DB = DATA_DIR / "memory.db"  # long-term memory (git-ignored)
+MEMORY_DB = Path(os.environ.get("ZEROPLATE_MEMORY_DB", DATA_DIR / "memory.db"))  # git-ignored
 CHROMA_DIR = DATA_DIR / "chroma"  # vector index (git-ignored)
 RECORDINGS_DIR = DATA_DIR / "recordings"  # recorded model answers for replay
-OUTPUTS_DIR = ROOT / "outputs"  # files produced by a run (git-ignored)
+OUTPUTS_DIR = Path(os.environ.get("ZEROPLATE_OUTPUTS_DIR", ROOT / "outputs"))  # git-ignored
 
 # Data directory can be overridden, e.g. tests point it at tests/fixtures.
-RAW_DIR = Path(os.environ.get("ZEROPLATE_RAW_DIR", RAW_DIR))
+# Until Anhad's generator has produced data/raw and data/kb, fall back to the sample fixtures
+# (the UI shows a banner when this happens).
+FIXTURES_DIR = ROOT / "tests" / "fixtures"
+if "ZEROPLATE_RAW_DIR" in os.environ:
+    RAW_DIR = Path(os.environ["ZEROPLATE_RAW_DIR"])
+elif not (RAW_DIR / "calendar.csv").exists():
+    RAW_DIR = FIXTURES_DIR / "raw"
+if not any(KB_DIR.glob("*.md")):
+    KB_DIR = FIXTURES_DIR / "kb"
+USING_FIXTURE_DATA = RAW_DIR.parent == FIXTURES_DIR
 
 # ---------------------------------------------------------------- language model
 # "deterministic": fixed rules, no model (tests).  "ollama": live local model.
@@ -32,6 +41,9 @@ LLM_TIMEOUT_S = 120
 
 # ---------------------------------------------------------------- MCP
 USE_MCP = os.environ.get("ZEROPLATE_USE_MCP", "1") == "1"  # 0 = call the same functions in-process
+# Anhad's Education server must live at this module path (contract). Until it exists, the hub
+# uses the test stand-in in tests/fixtures/education_stub.py.
+EDUCATION_SERVER = "zeroplate.mcp_servers.education_server"
 
 # ---------------------------------------------------------------- orchestration
 MAX_REVISIONS = 2  # Critic may send a plan back at most twice, then a human decides
@@ -57,6 +69,8 @@ BELOW_HOT_HOLD_MAX_HOURS = 2  # below 65 C: eat within 2 h or reheat
 REHEAT_TEMP_C = 75  # reheat to 75 C
 MAX_REHEATS = 1  # gravies, meat, poultry, fish: reheated only once
 MAX_AGE_HOURS = 24  # cooked food eaten within 24 h of preparation
+CHILL_MAX_C = 5  # chilled high-risk food kept at 5 C or below
+SERVICE_HOUR = 12  # reused food would be served at lunch on the plan date
 
 # ---------------------------------------------------------------- guardrails
 SUSPICIOUS_PATTERNS = (  # input guardrail for the manager's free-text note

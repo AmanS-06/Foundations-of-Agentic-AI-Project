@@ -247,9 +247,12 @@ class DishPlan(Strict):
     """Final plan for one dish, with its explanation for the UI's "Why?" panel."""
 
     dish: str
-    planned: NonNegativeInt
+    planned: NonNegativeInt  # plates available = cooked today + reused safe leftovers
+    cooked: NonNegativeInt
+    reused: NonNegativeInt = 0
     forecast_mean: NonNegativeFloat
     forecast_spread: NonNegativeFloat
+    low_confidence: bool = False
     reason: str
 
 
@@ -282,7 +285,19 @@ class ProductionPlan(Strict):
     purchase_cost: NonNegativeFloat  # cost of the purchase orders (part of tomorrow's spending)
     candidates: list[Candidate]
     chosen_buffer: float
+    reused_batches: list[str] = []  # leftover batch ids the plan reuses
+    feasible: bool = True  # False: no candidate satisfies the Critic's constraints
+    notes: list[str] = []  # problems found (e.g. no supplier can deliver in time)
     summary: str  # model-written; numbers in it are fact-checked (rule C6)
+
+
+class RevisionDecision(Strict):
+    """How the Executor reads the Critic's feedback (model-written, or derived from the rules)."""
+
+    max_food_cost: NonNegativeFloat | None = None  # stay within this food cost
+    drop_batches: list[str] = []  # leftover batches that must not be reused
+    regenerate_summary: bool = False  # the summary had a wrong number
+    reasoning: str
 
 
 class RuleCheck(Strict):
