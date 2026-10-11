@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1110" viewBox="0 0 1920 1110">
+<defs>
+<marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+<style>
+text { font-family: 'Segoe UI', Arial, sans-serif; }
+.h { font-size: 30px; font-weight: 700; fill: #0F172A; }
+.t { font-size: 19px; font-weight: 700; }
+.b { font-size: 15px; fill: #0F172A; }
+.g { font-size: 14px; fill: #475569; font-style: italic; }
+</style>
+</defs>
+<rect width="1920" height="1110" fill="#FFFFFF"/>
+<text x="135" y="48" class="h">ZeroPlate: how one planning run works</text>
+<text x="135" y="76" class="g" font-size="16">Agents (blue) reach the three departments through one MCP hub (green). Draft v1, 11 Oct 2026. All data is synthetic.</text>
+<rect x="135" y="100" width="270" height="105" rx="12" fill="#F1F5F9" stroke="#475569" stroke-width="2.5"/>
+<text x="151" y="130" class="t" fill="#475569">Streamlit dashboard</text>
+<text x="151" y="158" class="b">The canteen manager picks a</text>
+<text x="151" y="179" class="b">date and a goal, and may add</text>
+<text x="151" y="200" class="b">a free-text note.</text>
+<rect x="480" y="100" width="270" height="105" rx="12" fill="#FDE8E8" stroke="#C81E1E" stroke-width="2.5"/>
+<text x="496" y="130" class="t" fill="#C81E1E">Input guardrail</text>
+<text x="496" y="158" class="b">Scans the note for hidden</text>
+<text x="496" y="179" class="b">instructions such as</text>
+<text x="496" y="200" class="b">&#x27;ignore the rules&#x27;.</text>
+<rect x="1170" y="100" width="615" height="105" rx="12" fill="#F3E8FF" stroke="#7E22CE" stroke-width="2.5"/>
+<text x="1186" y="130" class="t" fill="#7E22CE">Language model (used by the agents)</text>
+<text x="1186" y="158" class="b">Replayed recorded answers (default), live Ollama, or fixed rules for tests.</text>
+<text x="1186" y="179" class="b">It reads the note, explains plans and writes the Critic&#x27;s feedback.</text>
+<text x="1186" y="200" class="b">Numbers are decided by code and tools, never by the model.</text>
+<path d="M405,152 L480,152" fill="none" stroke="#475569" stroke-width="2.5" marker-end="url(#head)"/>
+<path d="M615,205 L615,238 L270,238 L270,270" fill="none" stroke="#475569" stroke-width="2.5" marker-end="url(#head)"/>
+<rect x="135" y="270" width="270" height="190" rx="12" fill="#E8F0FE" stroke="#1A56DB" stroke-width="2.5"/>
+<text x="151" y="300" class="t" fill="#1A56DB">1  Planner</text>
+<text x="151" y="328" class="b">Breaks the goal into</text>
+<text x="151" y="349" class="b">subtasks and routes the</text>
+<text x="151" y="370" class="b">work. Passes problems to</text>
+<text x="151" y="391" class="b">a human.</text>
+<text x="151" y="430" class="g">Tools: none</text>
+<text x="151" y="448" class="g">(reads the run state)</text>
+<rect x="480" y="270" width="270" height="190" rx="12" fill="#E8F0FE" stroke="#1A56DB" stroke-width="2.5"/>
+<text x="496" y="300" class="t" fill="#1A56DB">2  Research</text>
+<text x="496" y="328" class="b">Gathers evidence: calendar,</text>
+<text x="496" y="349" class="b">attendance, stock, rules,</text>
+<text x="496" y="370" class="b">past runs. Reads the note.</text>
+<text x="496" y="430" class="g">Reads: Education, Supply,</text>
+<text x="496" y="448" class="g">knowledge base, memory</text>
+<rect x="825" y="270" width="270" height="190" rx="12" fill="#E8F0FE" stroke="#1A56DB" stroke-width="2.5"/>
+<text x="841" y="300" class="t" fill="#1A56DB">3  Executor</text>
+<text x="841" y="328" class="b">Forecasts demand, tries four</text>
+<text x="841" y="349" class="b">cooking amounts, picks the</text>
+<text x="841" y="370" class="b">best, works out ingredients</text>
+<text x="841" y="391" class="b">and cost.</text>
+<text x="841" y="430" class="g">Reads: Supply</text>
+<text x="841" y="448" class="g">Costs the plan: Finance</text>
+<rect x="1170" y="270" width="270" height="190" rx="12" fill="#E8F0FE" stroke="#1A56DB" stroke-width="2.5"/>
+<text x="1186" y="300" class="t" fill="#1A56DB">4  Critic</text>
+<text x="1186" y="328" class="b">Checks the plan against six</text>
+<text x="1186" y="349" class="b">rules, then approves, sends</text>
+<text x="1186" y="370" class="b">it back, or escalates.</text>
+<text x="1186" y="430" class="g">Reads: Finance, Supply,</text>
+<text x="1186" y="448" class="g">knowledge base</text>
+<rect x="1515" y="270" width="270" height="190" rx="12" fill="#E8F0FE" stroke="#1A56DB" stroke-width="2.5"/>
+<text x="1531" y="300" class="t" fill="#1A56DB">5  Business Automation</text>
+<text x="1531" y="328" class="b">Acts on the approved plan:</text>
+<text x="1531" y="349" class="b">prep sheet, purchase orders,</text>
+<text x="1531" y="370" class="b">waste-cost log.</text>
+<text x="1531" y="430" class="g">Writes: Supply, Finance,</text>
+<text x="1531" y="448" class="g">memory</text>
+<path d="M405,332 L480,332" fill="none" stroke="#475569" stroke-width="2.5" marker-end="url(#head)"/>
+<text x="442" y="324" text-anchor="middle" font-size="12" fill="#475569" font-style="italic">tasks</text>
+<path d="M750,332 L825,332" fill="none" stroke="#475569" stroke-width="2.5" marker-end="url(#head)"/>
+<text x="787" y="324" text-anchor="middle" font-size="12" fill="#475569" font-style="italic">facts</text>
+<path d="M1095,332 L1170,332" fill="none" stroke="#475569" stroke-width="2.5" marker-end="url(#head)"/>
+<text x="1132" y="324" text-anchor="middle" font-size="12" fill="#475569" font-style="italic">plan</text>
+<path d="M1440,332 L1515,332" fill="none" stroke="#475569" stroke-width="2.5" marker-end="url(#head)"/>
+<text x="1477" y="324" text-anchor="middle" font-size="12" fill="#475569" font-style="italic">approved</text>
+<path d="M1305,270 L1305,246 L960,246 L960,270" fill="none" stroke="#C81E1E" stroke-width="2.5" marker-end="url(#head)"/>
+<text x="1132.5" y="238" text-anchor="middle" font-size="14" fill="#C81E1E" font-style="italic">revise, at most twice, with the Critic&#x27;s feedback</text>
+<rect x="1240" y="470" width="200" height="28" rx="14" fill="#FDE8E8" stroke="#C81E1E" stroke-width="2"/>
+<text x="1340" y="489" text-anchor="middle" font-size="14" fill="#C81E1E">escalate: manager decides</text>
+<rect x="135" y="522" width="1650" height="56" rx="12" fill="#FFFFFF" stroke="#1E8E3E" stroke-width="3"/>
+<text x="155" y="546" class="t" fill="#1E8E3E" font-size="17">MCP hub (the client)</text>
+<text x="355" y="546" class="b">Every tool call goes through here. Each agent has an allowlist, so a call it is not allowed to make is refused and logged.</text>
+<text x="355" y="566" class="b">Only the Business Automation agent may use tools that change something (purchase orders, waste-cost log).</text>
+<path d="M170,460 L170,522" fill="none" stroke="#1E8E3E" stroke-width="2" marker-end="url(#head)" marker-start="url(#head)"/>
+<path d="M515,460 L515,522" fill="none" stroke="#1E8E3E" stroke-width="2" marker-end="url(#head)" marker-start="url(#head)"/>
+<path d="M860,460 L860,522" fill="none" stroke="#1E8E3E" stroke-width="2" marker-end="url(#head)" marker-start="url(#head)"/>
+<path d="M1205,460 L1205,522" fill="none" stroke="#1E8E3E" stroke-width="2" marker-end="url(#head)" marker-start="url(#head)"/>
+<path d="M1550,460 L1550,522" fill="none" stroke="#1E8E3E" stroke-width="2" marker-end="url(#head)" marker-start="url(#head)"/>
+<rect x="135" y="628" width="270" height="150" rx="12" fill="#E6F4EA" stroke="#1E8E3E" stroke-width="2.5"/>
+<text x="151" y="658" class="t" fill="#1E8E3E">Education server</text>
+<text x="151" y="686" class="b">The academic office.</text>
+<text x="151" y="707" class="b">Calendar: exam, holiday, fest</text>
+<text x="151" y="728" class="b">and weather. Expected</text>
+<text x="151" y="749" class="b">attendance. Similar past days.</text>
+<rect x="480" y="628" width="270" height="150" rx="12" fill="#E6F4EA" stroke="#1E8E3E" stroke-width="2.5"/>
+<text x="496" y="658" class="t" fill="#1E8E3E">Supply server</text>
+<text x="496" y="686" class="b">The canteen store.</text>
+<text x="496" y="707" class="b">Stock and expiry dates, recipes,</text>
+<text x="496" y="728" class="b">supplier prices, leftovers.</text>
+<text x="496" y="749" class="b">Writes purchase orders.</text>
+<rect x="825" y="628" width="270" height="150" rx="12" fill="#E6F4EA" stroke="#1E8E3E" stroke-width="2.5"/>
+<text x="841" y="658" class="t" fill="#1E8E3E">Finance server</text>
+<text x="841" y="686" class="b">The accounts office.</text>
+<text x="841" y="707" class="b">Daily budget and the cost of a</text>
+<text x="841" y="728" class="b">plan. Writes the waste-cost</text>
+<text x="841" y="749" class="b">log.</text>
+<rect x="1170" y="628" width="270" height="150" rx="12" fill="#FEF3E2" stroke="#B45309" stroke-width="2.5" stroke-dasharray="8 5"/>
+<text x="1186" y="658" class="t" fill="#B45309">Knowledge base</text>
+<text x="1186" y="686" class="b">Local tool, same allowlist.</text>
+<text x="1186" y="707" class="b">FSSAI food-safety rules, SOP,</text>
+<text x="1186" y="728" class="b">recipe yields, budget policy.</text>
+<text x="1186" y="749" class="b">Search results carry citations.</text>
+<rect x="1515" y="628" width="270" height="150" rx="12" fill="#FEF3E2" stroke="#B45309" stroke-width="2.5" stroke-dasharray="8 5"/>
+<text x="1531" y="658" class="t" fill="#B45309">Long-term memory</text>
+<text x="1531" y="686" class="b">Local tool, same allowlist.</text>
+<text x="1531" y="707" class="b">SQLite: past runs and what</text>
+<text x="1531" y="728" class="b">really happened, so later</text>
+<text x="1531" y="749" class="b">plans can learn from them.</text>
+<path d="M270,578 L270,628" fill="none" stroke="#1E8E3E" stroke-width="2" marker-end="url(#head)" marker-start="url(#head)"/>
+<path d="M615,578 L615,628" fill="none" stroke="#1E8E3E" stroke-width="2" marker-end="url(#head)" marker-start="url(#head)"/>
+<path d="M960,578 L960,628" fill="none" stroke="#1E8E3E" stroke-width="2" marker-end="url(#head)" marker-start="url(#head)"/>
+<path d="M1305,578 L1305,628" fill="none" stroke="#1E8E3E" stroke-width="2" marker-end="url(#head)" marker-start="url(#head)"/>
+<path d="M1650,578 L1650,628" fill="none" stroke="#1E8E3E" stroke-width="2" marker-end="url(#head)" marker-start="url(#head)"/>
+<rect x="135" y="808" width="530" height="200" rx="12" fill="#E8F0FE" stroke="#1A56DB" stroke-width="2.5"/>
+<text x="151" y="838" class="t" fill="#1A56DB">How the Executor decides (utility, Tree-of-Thought)</text>
+<text x="151" y="866" class="b">1. Three forecasting methods give a mean and a spread per dish.</text>
+<text x="151" y="889" class="b">2. Four candidate plans: cook the forecast plus 0, 5, 10 or 15%.</text>
+<text x="151" y="912" class="b">3. Each candidate is tested against 500 simulated demands.</text>
+<text x="151" y="935" class="b">4. Score = minus the waste cost, minus 3 times the shortage cost.</text>
+<text x="151" y="958" class="b">5. The best-scoring candidate goes to the Critic.</text>
+<rect x="695" y="808" width="530" height="200" rx="12" fill="#FDE8E8" stroke="#C81E1E" stroke-width="2.5"/>
+<text x="711" y="838" class="t" fill="#C81E1E">What the Critic checks (six rules)</text>
+<text x="711" y="866" class="b">C1  Quantities are sane next to similar past days.</text>
+<text x="711" y="889" class="b">C2  The extra buffer stays within the allowed limit.</text>
+<text x="711" y="912" class="b">C4  The total cost fits the daily budget.</text>
+<text x="711" y="935" class="b">C5  Vegetarian and Jain dishes keep their minimum portions.</text>
+<text x="711" y="958" class="b">C6  Numbers in written text match the tool results.</text>
+<text x="711" y="981" class="b">C9  Leftover reuse follows the FSSAI food-safety rules.</text>
+<rect x="1255" y="808" width="530" height="200" rx="12" fill="#F1F5F9" stroke="#475569" stroke-width="2.5"/>
+<text x="1271" y="838" class="t" fill="#475569">What comes out</text>
+<text x="1271" y="866" class="b">A kitchen prep sheet: plates of each dish.</text>
+<text x="1271" y="889" class="b">Purchase orders for what the store is missing.</text>
+<text x="1271" y="912" class="b">The cost of leftovers that cannot be reused.</text>
+<text x="1271" y="935" class="b">Leftover reuse suggestions that passed the rule.</text>
+<text x="1271" y="958" class="b">The dashboard shows the whole trace: each thought,</text>
+<text x="1271" y="981" class="b">tool call and rule result, plus run metrics.</text>
+<rect x="135" y="1032" width="18" height="18" rx="4" fill="#E8F0FE" stroke="#1A56DB" stroke-width="2"/>
+<text x="161" y="1046" class="g" font-size="14">agent</text>
+<rect x="229" y="1032" width="18" height="18" rx="4" fill="#E6F4EA" stroke="#1E8E3E" stroke-width="2"/>
+<text x="255" y="1046" class="g" font-size="14">department system (MCP server)</text>
+<rect x="523" y="1032" width="18" height="18" rx="4" fill="#FEF3E2" stroke="#B45309" stroke-width="2"/>
+<text x="549" y="1046" class="g" font-size="14">local tool</text>
+<rect x="657" y="1032" width="18" height="18" rx="4" fill="#FDE8E8" stroke="#C81E1E" stroke-width="2"/>
+<text x="683" y="1046" class="g" font-size="14">guardrail or decision</text>
+<rect x="879" y="1032" width="18" height="18" rx="4" fill="#F3E8FF" stroke="#7E22CE" stroke-width="2"/>
+<text x="905" y="1046" class="g" font-size="14">language model</text>
+<rect x="1045" y="1032" width="18" height="18" rx="4" fill="#F1F5F9" stroke="#475569" stroke-width="2"/>
+<text x="1071" y="1046" class="g" font-size="14">interface and output</text>
+</svg>
