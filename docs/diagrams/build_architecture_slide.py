@@ -1,8 +1,8 @@
 """Draw a simplified, large-text version of the architecture diagram for slides, as SVG and PNG.
 
 The full diagram (build_architecture.py) is meant to be read on paper or zoomed on screen. On a slide its
-text would be far too small, so this version keeps the same parts (agents, MCP hub, department servers,
-local tools, guardrail, language model) with fewer words and bigger type.
+text would be far too small, so this version keeps the same parts (agents, MCP hub, offices as tool servers,
+rule documents, memory, note check, AI model) with fewer words, bigger type and plainer names.
 
 Run:  .venv\\Scripts\\python docs\\diagrams\\build_architecture_slide.py
 """
@@ -52,11 +52,11 @@ def arrow(d, colour=MUTED, width=3, both=False):
 
 
 # ---- row 1: entry, guardrail, language model
-box(40, 20, 360, 135, UI, "Streamlit app", ["Manager picks a date,", "a goal and a note"])
-box(470, 20, 360, 135, GUARD, "Input guardrail", ["Flags notes that", "try to give orders"])
+box(40, 20, 360, 135, UI, "The app", ["Manager picks a date,", "a goal and a note"])
+box(470, 20, 360, 135, GUARD, "Note check", ["Flags notes that", "try to give orders"])
 box(
-    1040, 20, 820, 135, MODEL, "Language model (replayed answers)",
-    ["Reads the note, writes explanations and feedback.", "Every number comes from a tool, never the model."],
+    1040, 20, 820, 135, MODEL, "AI language model (replayed in the demo)",
+    ["Reads the note and helps write explanations.", "Every number comes from a tool, never the AI."],
 )  # fmt: skip
 arrow("M400,87 L470,87")
 arrow("M650,155 L650,190 L205,190 L205,228")
@@ -69,7 +69,7 @@ agents = [
     ("2  Research", ["Gathers facts and", "rules, with sources"]),
     ("3  Executor", ["Forecasts, tries four", "plans, picks the best"]),
     ("4  Critic", ["Checks six rules and", "can send a plan back"]),
-    ("5  Automation", ["Raises purchase orders,", "writes the prep sheet"]),
+    ("5  Automation", ["Places orders and", "writes the prep sheet"]),
 ]
 for x, (title, lines) in zip(AX, agents):
     box(x, AY, AW, AH, AGENT, title, lines)
@@ -102,7 +102,7 @@ parts.append(
 )
 parts.append(f'<text x="64" y="{HY + 41}" class="t" fill="{SERVER[1]}">MCP hub</text>')
 parts.append(
-    f'<text x="240" y="{HY + 41}" class="b">Every tool call goes through here. Each agent has an allowlist, '
+    f'<text x="240" y="{HY + 41}" class="b">Every data request passes here. Each agent has a list of tools it may use, '
     f"and only Business Automation can change anything.</text>"
 )
 for x in AX:
@@ -110,15 +110,15 @@ for x in AX:
 
 # ---- row 4: department servers and local tools
 SY, SH = 600, 170
-box(40, SY, 330, SH, SERVER, "Education server", ["Academic office:", "calendar, attendance"])
+box(40, SY, 330, SH, SERVER, "Education office", ["Calendar and how", "many students come"])
 box(
     410,
     SY,
     330,
     SH,
     SERVER,
-    "Supply server",
-    ["Canteen store: stock,", "recipes, suppliers,", "leftovers, orders"],
+    "Supply office",
+    ["Stock, recipes,", "suppliers, leftovers,", "orders"],
 )
 box(
     780,
@@ -126,8 +126,8 @@ box(
     330,
     SH,
     SERVER,
-    "Finance server",
-    ["Accounts office:", "budget, plan cost,", "waste-cost log"],
+    "Finance office",
+    ["Budget, plan cost,", "waste-cost log"],
 )
 box(
     1150,
@@ -135,17 +135,17 @@ box(
     330,
     SH,
     LOCAL,
-    "Knowledge base",
-    ["FSSAI rules and", "policies, with", "citations"],
+    "Rule documents",
+    ["FSSAI food-safety rules", "and canteen policies,", "with sources"],
     dashed=True,
 )
-box(1520, SY, 330, SH, LOCAL, "Memory", ["Past runs and the", "lessons they left"], dashed=True)
+box(1520, SY, 330, SH, LOCAL, "Memory", ["Past runs and what", "they taught"], dashed=True)
 for cx in (205, 575, 945, 1315, 1685):
     arrow(f"M{cx},{HY + HH} L{cx},{SY}", SERVER[1], 2.5, both=True)
 
 # ---- legend
-legend = [(AGENT, "agent"), (SERVER, "department system"), (LOCAL, "local tool"), (GUARD, "guardrail"),
-          (MODEL, "language model"), (UI, "interface")]  # fmt: skip
+legend = [(AGENT, "agent"), (SERVER, "office (tool server)"), (LOCAL, "documents, memory"), (GUARD, "safety check"),
+          (MODEL, "AI model"), (UI, "app")]  # fmt: skip
 x = 40
 for colour, text in legend:
     parts.append(
