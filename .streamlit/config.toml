@@ -1,9 +1,10 @@
 [theme]
 base = "dark"
-primaryColor = "#7c85e8"
-backgroundColor = "#0b0c0e"
-secondaryBackgroundColor = "#15161a"
-textColor = "#e6e7ea"
+primaryColor = "#34d399"
+backgroundColor = "#0a0e13"
+secondaryBackgroundColor = "#111821"
+textColor = "#e6edf3"
+borderColor = "#1f2a36"
 
 [browser]
 gatherUsageStats = false  # nothing is sent anywhere: the demo runs offline

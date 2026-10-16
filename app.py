@@ -54,8 +54,12 @@ PLOT_LAYOUT = {
     "template": "plotly_dark",
     "paper_bgcolor": "rgba(0,0,0,0)",
     "plot_bgcolor": "rgba(0,0,0,0)",
-    "font": {"family": "Geist, system-ui, sans-serif", "color": "#c9ccd2"},
-    "margin": {"l": 10, "r": 10, "t": 40, "b": 10},
+    "font": {"family": "Geist, system-ui, sans-serif", "color": "#b6c2cf"},
+    "title_font": {"size": 14, "color": "#e6edf3"},
+    "xaxis": {"gridcolor": "rgba(148,163,184,0.08)", "zerolinecolor": "rgba(148,163,184,0.15)"},
+    "yaxis": {"gridcolor": "rgba(148,163,184,0.08)", "zerolinecolor": "rgba(148,163,184,0.15)"},
+    "legend": {"bgcolor": "rgba(0,0,0,0)"},
+    "margin": {"l": 10, "r": 10, "t": 44, "b": 10},
     "height": 330,
 }
 
@@ -105,21 +109,21 @@ def header(llm_mode: str) -> None:
         badge(
             "Tools",
             f"{hub.mode.upper()} · {len(hub.tools())} servers",
-            "#4cb782" if hub.mode == "mcp" else "#f2994a",
+            "#34d399" if hub.mode == "mcp" else "#fbbf24",
         ),
-        badge("Model", llm_value, "#7c85e8"),
+        badge("Model", llm_value, "#7dd3fc"),
         badge(
             "Data",
             "sample fixtures" if config.USING_FIXTURE_DATA else "data/raw",
-            "#f2994a" if config.USING_FIXTURE_DATA else "#4cb782",
+            "#fbbf24" if config.USING_FIXTURE_DATA else "#34d399",
         ),
         badge(
             "Education server",
             "test stand-in" if edu_stub else "real",
-            "#f2994a" if edu_stub else "#4cb782",
+            "#fbbf24" if edu_stub else "#34d399",
         ),
-        badge("Knowledge base", f"{len(kb)} chunks", "#7c85e8"),
-        badge("Memory", f"{memory.count()} past runs", "#7c85e8"),
+        badge("Knowledge base", f"{len(kb)} chunks", "#7dd3fc"),
+        badge("Memory", f"{memory.count()} past runs", "#7dd3fc"),
     ]
     st.markdown(f'<div class="zp-badges">{"".join(badges)}</div>', unsafe_allow_html=True)
     if hub.start_error:
@@ -206,7 +210,7 @@ def run_agents(llm_mode: str, options: dict) -> dict:
 
 
 # ---------------------------------------------------------------- result views
-def card(label: str, value: str, detail: str = "", color: str = "#8a8f98") -> str:
+def card(label: str, value: str, detail: str = "", color: str = "#7d8a99") -> str:
     return (
         f'<div class="zp-card"><div class="k">{label}</div><div class="v">{value}</div>'
         f'<div class="d" style="color:{color}">{detail}</div></div>'
@@ -236,7 +240,7 @@ def view_overview(s: dict) -> None:
             "Food cost",
             f"Rs {plan.food_cost:,.0f}",
             f"Rs {abs(over):,.0f} {'over' if over > 0 else 'under'} budget",
-            "#eb5757" if over > 0 else "#4cb782",
+            "#fb7185" if over > 0 else "#34d399",
         ),
         card("Budget", f"Rs {budget:,.0f}", "from the Finance server"),
         card("Chosen branch", f"+{plan.chosen_buffer:.0%}", f"utility {chosen.utility:,.0f}"),
@@ -337,26 +341,25 @@ def view_decision(s: dict) -> None:
         x=x,
         y=[c.expected_waste_cost for c in cands],
         name="Expected waste (Rs)",
-        marker_color="#f2994a",
+        marker_color="#fbbf24",
     )
     fig.add_bar(
         x=x,
         y=[c.expected_shortage_cost for c in cands],
         name="Expected shortage (Rs)",
-        marker_color="#eb5757",
+        marker_color="#fb7185",
     )
     fig.add_scatter(
         x=x,
         y=[-c.utility for c in cands],
         name="Cost to minimise (-utility)",
         mode="lines+markers",
-        line={"color": "#7c85e8", "width": 3},
+        line={"color": "#7dd3fc", "width": 3},
     )
     fig.update_layout(
         title="Waste vs shortage trade-off",
         barmode="group",
-        legend={"orientation": "h", "y": -0.2},
-        **PLOT_LAYOUT,
+        **{**PLOT_LAYOUT, "legend": {"orientation": "h", "y": -0.2, "bgcolor": "rgba(0,0,0,0)"}},
     )
     left.plotly_chart(fig, width="stretch")
     budget = s["attempts"][-1]["budget"]
@@ -364,11 +367,11 @@ def view_decision(s: dict) -> None:
     fig2.add_bar(
         x=x,
         y=[c.food_cost for c in cands],
-        marker_color=["#4cb782" if c.food_cost <= budget else "#5a5d66" for c in cands],
+        marker_color=["#34d399" if c.food_cost <= budget else "#3b4655" for c in cands],
         name="Food cost",
     )
     fig2.add_hline(
-        y=budget, line_dash="dash", line_color="#eb5757", annotation_text=f"budget Rs {budget:,.0f}"
+        y=budget, line_dash="dash", line_color="#fb7185", annotation_text=f"budget Rs {budget:,.0f}"
     )
     fig2.update_layout(title="Food cost of each branch (before reusing leftovers)", **PLOT_LAYOUT)
     right.plotly_chart(fig2, width="stretch")
@@ -514,7 +517,7 @@ def view_evaluation() -> None:
             "Waste reduction",
             f"{b['waste_plates_reduction_pct']}%",
             "plates vs old habit",
-            "#4cb782",
+            "#34d399",
         ),
         unsafe_allow_html=True,
     )
@@ -523,7 +526,7 @@ def view_evaluation() -> None:
             "Shortage reduction",
             f"{b['shortage_plates_reduction_pct']}%",
             "plates vs old habit",
-            "#4cb782",
+            "#34d399",
         ),
         unsafe_allow_html=True,
     )
@@ -533,8 +536,8 @@ def view_evaluation() -> None:
     )
     fig = go.Figure()
     for label, key, color in (
-        ("Old habit", "old_habit", "#5a5d66"),
-        ("ZeroPlate", "agents", "#7c85e8"),
+        ("Old habit", "old_habit", "#3b4655"),
+        ("ZeroPlate", "agents", "#34d399"),
     ):
         fig.add_bar(
             x=["Wasted plates", "Short plates"],
@@ -581,13 +584,13 @@ def view_system() -> None:
     st.markdown("#### Architecture")
     st.graphviz_chart(
         """digraph {
-        rankdir=LR; bgcolor="transparent"; node [shape=box style="rounded,filled" fillcolor="#1b1d23" color="#3a3d46" fontcolor="#e6e7ea" fontname="Helvetica"]; edge [color="#7c85e8" fontcolor="#8a8f98" fontname="Helvetica" fontsize=10];
+        rankdir=LR; bgcolor="transparent"; node [shape=box style="rounded,filled" fillcolor="#141c26" color="#2a3644" fontcolor="#e6edf3" fontname="Helvetica"]; edge [color="#34d399" fontcolor="#7d8a99" fontname="Helvetica" fontsize=10];
         ui [label="Streamlit UI"]; planner [label="Planner"]; research [label="Research"]; executor [label="Executor"]; critic [label="Critic" shape=diamond]; automation [label="Business\\nAutomation"]; human [label="Human decision"];
         node [shape=cylinder fillcolor="#2a2214" color="#7a5a2a"]; edu [label="Education\\nMCP server"]; sup [label="Supply\\nMCP server"]; fin [label="Finance\\nMCP server"];
         node [fillcolor="#14261c" color="#2e6b4a"]; kb [label="Knowledge base\\n(Chroma + BM25)"]; mem [label="Memory\\n(SQLite)"];
         ui -> planner -> research -> executor -> critic; critic -> automation [label="approve"]; critic -> executor [label="revise"]; critic -> human [label="escalate"];
         research -> edu [style=dashed]; research -> sup [style=dashed]; executor -> sup [style=dashed]; executor -> fin [style=dashed]; critic -> fin [style=dashed];
-        automation -> sup [label="write" color="#f2994a"]; automation -> fin [label="write" color="#f2994a"];
+        automation -> sup [label="write" color="#fbbf24"]; automation -> fin [label="write" color="#fbbf24"];
         research -> kb [style=dashed]; research -> mem [style=dashed]; automation -> mem;
         }"""
     )
