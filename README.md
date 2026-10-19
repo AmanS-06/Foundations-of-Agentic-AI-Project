@@ -4,6 +4,36 @@ A cross-domain agentic AI planner for a college canteen. Five agents use tools o
 
 CA-3 proof of concept for *Foundations of Agentic AI* (SIT Pune). All data is synthetic.
 
+## Final submission materials
+
+Everything submitted for CA-3 is in [`ZeroPlate_final_submission_materials/`](ZeroPlate_final_submission_materials/):
+
+| File | What it is |
+|---|---|
+| [Presentation (PDF)](ZeroPlate_final_submission_materials/ZeroPlate_CA3_presentation.pdf) | Slide deck, viewable on GitHub |
+| [Presentation (PPTX)](ZeroPlate_final_submission_materials/ZeroPlate_CA3_presentation.pptx) | Editable slide deck (download to open) |
+| [Problem statement and domain](ZeroPlate_final_submission_materials/ZeroPlate_problem_statement_and_domain.pdf) | One-page problem and domain note |
+
+### Architecture: the complete system
+
+![ZeroPlate end-to-end architecture](ZeroPlate_final_submission_materials/ZeroPlate_architecture_diagram.png)
+
+### 1. LangGraph: state, nodes and edges
+
+![LangGraph state, nodes and edges](ZeroPlate_final_submission_materials/ZeroPlate_architecture_1_langgraph.png)
+
+### 2. Orchestration layer: agent and tool calls
+
+![Orchestration layer](ZeroPlate_final_submission_materials/ZeroPlate_architecture_2_orchestration.png)
+
+### 3. MCP layer: host, client and servers
+
+![MCP host, client and servers](ZeroPlate_final_submission_materials/ZeroPlate_architecture_3_mcp.png)
+
+### 4. RAG: knowledge base retrieval
+
+![RAG connection and implementation](ZeroPlate_final_submission_materials/ZeroPlate_architecture_4_rag.png)
+
 ## How it works
 
 ```
