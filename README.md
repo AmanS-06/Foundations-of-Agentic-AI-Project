@@ -1,61 +1,165 @@
+<div align="center">
+
 # ZeroPlate
 
-A cross-domain agentic AI planner for a college canteen. Five agents use tools owned by three departments (academics, the store and accounts) to decide how much of each dish to cook: as little waste as possible, no shortages, within the daily budget and food-safety rules.
+**A cross-domain agentic AI planner for the college canteen**<br>
+Five agents, three departments, one goal: *cook what will be eaten.*
 
-CA-3 proof of concept for *Foundations of Agentic AI* (SIT Pune). All data is synthetic.
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.65-FF4B4B?logo=streamlit&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-1.2-1C3C3C)
+![MCP](https://img.shields.io/badge/MCP-1.30-6E56CF)
+![Ollama](https://img.shields.io/badge/Ollama-Mistral-000000?logo=ollama&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-230%20passing-34d399)
 
-## Final submission materials
+CA-3 proof of concept for *Foundations of Agentic AI*, SIT Pune · Anhad Mahajan and Aman Saxena<br>
+All data in this project is synthetic.
 
-Everything submitted for CA-3 is in [`ZeroPlate_final_submission_materials/`](ZeroPlate_final_submission_materials/):
+</div>
 
-| File | What it is |
+---
+
+## The problem
+
+A college canteen cooks before it knows who will come. Three offices each hold part of the answer, but nobody combines them:
+
+| Department | Knows | MCP server |
+|---|---|---|
+| **Education** (academic office) | exam days, holidays, fests, expected attendance | `edu_server` |
+| **Supply** (canteen store) | stock, recipes, leftovers, suppliers | `supply_server` |
+| **Finance** (accounts) | the daily budget and the cost of a plan | `finance_server` |
+
+ZeroPlate's agents ask all three, then decide how much of each dish to cook: as little waste as possible, no shortages, within budget and FSSAI food-safety rules.
+
+## Final submission
+
+Everything submitted for CA-3 is in [`Final submission/`](Final%20submission/):
+
+| | File |
 |---|---|
-| [Presentation (PDF)](ZeroPlate_final_submission_materials/ZeroPlate_CA3_presentation.pdf) | Slide deck, viewable on GitHub |
-| [Presentation (PPTX)](ZeroPlate_final_submission_materials/ZeroPlate_CA3_presentation.pptx) | Editable slide deck (download to open) |
-| [Problem statement and domain](ZeroPlate_final_submission_materials/ZeroPlate_problem_statement_and_domain.pdf) | One-page problem and domain note |
+| Presentation | [PDF](Final%20submission/ZeroPlate_CA3_presentation.pdf) (viewable on GitHub) · [PPTX](Final%20submission/ZeroPlate_CA3_presentation.pptx) (download) |
+| Problem statement and domain | [PDF](Final%20submission/ZeroPlate_problem_statement_and_domain.pdf) |
 
-### Architecture: the complete system
+### Complete architecture
 
-![ZeroPlate end-to-end architecture](ZeroPlate_final_submission_materials/ZeroPlate_architecture_diagram.png)
+![ZeroPlate end-to-end architecture](Final%20submission/ZeroPlate_architecture_diagram.png)
 
-### 1. LangGraph: state, nodes and edges
+<details>
+<summary><b>1. LangGraph: state, nodes and edges</b></summary>
 
-![LangGraph state, nodes and edges](ZeroPlate_final_submission_materials/ZeroPlate_architecture_1_langgraph.png)
+![LangGraph state, nodes and edges](Final%20submission/ZeroPlate_architecture_1_langgraph.png)
+</details>
 
-### 2. Orchestration layer: agent and tool calls
+<details>
+<summary><b>2. Orchestration layer: agent and tool calls</b></summary>
 
-![Orchestration layer](ZeroPlate_final_submission_materials/ZeroPlate_architecture_2_orchestration.png)
+![Orchestration layer](Final%20submission/ZeroPlate_architecture_2_orchestration.png)
+</details>
 
-### 3. MCP layer: host, client and servers
+<details>
+<summary><b>3. MCP layer: host, client and servers</b></summary>
 
-![MCP host, client and servers](ZeroPlate_final_submission_materials/ZeroPlate_architecture_3_mcp.png)
+![MCP host, client and servers](Final%20submission/ZeroPlate_architecture_3_mcp.png)
+</details>
 
-### 4. RAG: knowledge base retrieval
+<details>
+<summary><b>4. RAG: knowledge-base retrieval</b></summary>
 
-![RAG connection and implementation](ZeroPlate_final_submission_materials/ZeroPlate_architecture_4_rag.png)
+![RAG connection and implementation](Final%20submission/ZeroPlate_architecture_4_rag.png)
+</details>
 
 ## How it works
 
-```
-Streamlit UI -> Planner -> Research -> Executor -> Critic --approve--> Business Automation
-                                          ^          |--revise (max 2)--'
-                                          |__________|--escalate--> human decision
+The agents run **sequentially** in one LangGraph graph, with a reflection loop: the Critic can send a plan back to the Executor at most twice, then hands the decision to a person.
+
+```mermaid
+flowchart LR
+    UI([Streamlit UI]):::ui --> P[Planner]:::agent
+    P --> R[Research]:::agent
+    R --> E[Executor]:::agent
+    E --> C{Critic}:::critic
+    C -- approve --> A[Business Automation]:::agent
+    C -- "revise (max 2)" --> E
+    C -- escalate --> H([Canteen manager]):::human
+    A --> D([Prep sheet + purchase orders]):::ui
+
+    classDef ui fill:#0f172a,stroke:#7dd3fc,color:#e6edf3
+    classDef agent fill:#064e3b,stroke:#34d399,color:#ecfdf5
+    classDef critic fill:#422006,stroke:#fbbf24,color:#fef3c7
+    classDef human fill:#4c0519,stroke:#fb7185,color:#ffe4e6
 ```
 
 | Agent | Job |
 |---|---|
-| Planner | Breaks the goal into tasks (supervisor) |
-| Research | Reads the academic calendar, attendance, menu and leftovers; searches the knowledge base; recalls past runs; reads the manager's note (after an injection check) |
-| Executor | Forecasts demand (ensemble of three methods), scores candidate quantities by expected utility (stocking calculation), works out ingredients, purchases and cost |
-| Critic | Checks six rules (event-aware range, forecast band, budget, dietary fairness, fact check, FSSAI leftover safety); approves, sends back with feedback, or escalates |
-| Business Automation | Raises purchase orders, logs expected waste cost, writes the prep sheet, saves a lesson to memory |
+| **Planner** | Breaks the goal into tasks (the language model does the decomposition) |
+| **Research** | Reads the calendar, attendance, menu and leftovers; searches the knowledge base; recalls past runs; reads the manager's note after an injection check |
+| **Executor** | ReAct loop: forecasts demand (median of three methods), scores Tree-of-Thought branches (+0/5/10/15%) by expected utility, then costs the plan |
+| **Critic** | Checks six rules (C1 event-aware range, C2 forecast band, C4 budget, C5 dietary fairness, C6 fact check, C9 FSSAI leftover safety); approves, revises or escalates |
+| **Business Automation** | The only agent with write tools: raises purchase orders, writes the prep sheet, saves a lesson to memory |
 
-- **Tools over MCP:** each department is its own MCP server (`education`, `supply`, `finance`), started as a separate process over stdio. A hub discovers the tools and enforces a per-agent allowlist; only Business Automation may use write tools.
-- **Knowledge base:** Markdown rules chunked by heading, TF-IDF vectors in ChromaDB plus BM25, merged by reciprocal rank fusion.
-- **Memory:** short-term = the LangGraph state of a run; long-term = SQLite of past runs.
-- **Language model:** a local model through Ollama. Its answers are recorded once and replayed in the demo; tests use a deterministic rule-based policy. Numbers always come from tools, and the Critic fact-checks every number the model writes.
+### Tools over MCP
 
-## Setup (Windows, Python 3.11)
+The ZeroPlate app is the **MCP host**. Inside it, the **MCP client** (`MCPHub`) keeps one session per server over stdio and checks every call against a per-agent allowlist.
+
+```mermaid
+flowchart LR
+    subgraph HOST["MCP host: ZeroPlate app"]
+        direction TB
+        AG[Agents]:::agent --> AL{Allowlist}:::critic
+        AL --> CL[MCP client<br/>MCPHub, 3 sessions]:::client
+        AG -.-> KB[(Knowledge base<br/>Chroma + BM25)]:::local
+        AG -.-> MEM[(Memory<br/>SQLite)]:::local
+        AG -.-> LLM[Mistral via Ollama<br/>record / replay]:::local
+    end
+    CL -- stdio --> EDU[Education server]:::server
+    CL -- stdio --> SUP[Supply server]:::server
+    CL -- stdio --> FIN[Finance server]:::server
+
+    classDef agent fill:#064e3b,stroke:#34d399,color:#ecfdf5
+    classDef critic fill:#422006,stroke:#fbbf24,color:#fef3c7
+    classDef client fill:#1e1b4b,stroke:#a5b4fc,color:#e0e7ff
+    classDef server fill:#0c4a6e,stroke:#7dd3fc,color:#e0f2fe
+    classDef local fill:#1f2937,stroke:#94a3b8,color:#e5e7eb
+    style HOST fill:#0a0e13,stroke:#334155,color:#e6edf3
+```
+
+### Retrieval (RAG)
+
+```mermaid
+flowchart LR
+    Q[Query]:::q --> S[Semantic search<br/>TF-IDF in ChromaDB]:::step
+    Q --> B[Keyword search<br/>BM25]:::step
+    S --> F{Reciprocal<br/>rank fusion}:::fuse
+    B --> F
+    F --> T[Top 3 chunks<br/>with citations]:::out
+    K[(data/kb/*.md<br/>39 chunks)]:::kb -.-> S
+    K -.-> B
+
+    classDef q fill:#0f172a,stroke:#7dd3fc,color:#e6edf3
+    classDef step fill:#064e3b,stroke:#34d399,color:#ecfdf5
+    classDef fuse fill:#422006,stroke:#fbbf24,color:#fef3c7
+    classDef out fill:#1e1b4b,stroke:#a5b4fc,color:#e0e7ff
+    classDef kb fill:#1f2937,stroke:#94a3b8,color:#e5e7eb
+```
+
+- **Memory:** short-term memory is the LangGraph state of a run; long-term memory is a SQLite store of past runs.
+- **Language model:** Mistral through Ollama does real work in three places: planning, reading the manager's note, and writing the Critic's feedback. Its answers are recorded once and replayed in the demo. Every number comes from a tool, and the Critic fact-checks every number the model writes.
+- **Guardrails:** prompt-injection check on the manager's note, tool allowlist (least privilege), C6 fact check, C9 FSSAI rule.
+
+## Results (simulation on synthetic data)
+
+| | |
+|---|---|
+| Benchmark scenarios passing | **6 / 6** |
+| Food waste vs the old habit | **−41.1%** |
+| Unmet demand vs the old habit | **−68.9%** |
+| Forecast error (MAPE) | **13%** |
+
+The last three rows come from a 30-day backtest on a held-out dataset (a different seed and different demand multipliers). The old habit is the canteen cooking last week's sales plus 15%.
+
+## Getting started
+
+**Setup** (Windows, Python 3.11)
 
 ```bash
 py -3.11 -m venv .venv
@@ -63,28 +167,24 @@ py -3.11 -m venv .venv
 .venv\Scripts\python scripts\check_env.py
 ```
 
-`check_env.py` should report every check as OK.
-
-## Run
+**Run**
 
 ```bash
 .venv\Scripts\streamlit run app.py
 ```
 
-Pick a scenario in the sidebar and press **Run the agents**. Scenario S1 (college fest) shows the whole loop: the Critic rejects the plan for unsafe leftovers, then for going over budget, and approves the third attempt.
+Pick a scenario in the sidebar and press **Run the agents**. Scenario **S1 (college fest)** shows the whole loop: the Critic rejects the plan for unsafe leftovers, then for going over budget, and approves the third attempt.
 
-Until the project dataset exists in `data/raw` and `data/kb`, the app uses the sample data in `tests/fixtures` (a banner says so).
-
-### Optional: the local language model
+**Optional: record the local model's answers**
 
 ```bash
 ollama pull mistral
 .venv\Scripts\python scripts\record_answers.py
 ```
 
-This records the model's answers to `data/recordings/answers.json`. The app replays them by default. To call the model live, choose `ollama` under *Advanced* in the sidebar.
+The app replays `data/recordings/answers.json` by default. To call the model live, choose `ollama` under *Advanced* in the sidebar.
 
-## Tests and evaluation
+**Tests and evaluation**
 
 ```bash
 .venv\Scripts\python -m pytest -q
@@ -92,23 +192,21 @@ set PYTHONPATH=src
 .venv\Scripts\python -m zeroplate.eval.run_eval --mcp
 ```
 
-The eval command (needs `PYTHONPATH=src`, set on the line above; or run it from the app's *Evaluation* view) runs six benchmark scenarios and a 30-day held-out backtest against the canteen's old habit of cooking last week's sales plus 15%.
-
 ## Project layout
 
 ```
 app.py                     Streamlit interface
+Final submission/          deck, problem statement, architecture diagrams
 src/zeroplate/
   agents/                  the five agents
   graph.py                 LangGraph orchestration
-  mcp_servers/             supply and finance MCP servers (education: see below)
-  mcp_client/              MCP hub and tool allowlist
-  domain/                  forecast, stocking calculation, costing (pure functions)
+  mcp_servers/             Education, Supply and Finance MCP servers
+  mcp_client/              MCP client (hub) and tool allowlist
+  domain/                  forecast, stocking calculation, costing
   guardrails/              injection check, fact check, FSSAI rule, Critic rules
   llm/                     model client: deterministic / ollama / record / replay
   rag/  memory/            knowledge-base search, long-term memory
   eval/                    scenarios and evaluation harness
+data/                      synthetic dataset, held-out dataset, knowledge base, recordings
 tests/                     tests and sample fixture data
 ```
-
-The Education MCP server lives at `src/zeroplate/mcp_servers/edu_server.py`. Until it is added, the hub uses a test stand-in from `tests/fixtures/education_stub.py`.
